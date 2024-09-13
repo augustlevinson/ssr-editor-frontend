@@ -6,7 +6,7 @@ function SingleDocument() {
 
   return (
     <div className="main">
-      < DocumentDetails id={slug.id} />
+      < DocumentDetails id={slug} />
     </div>
   );
 }
