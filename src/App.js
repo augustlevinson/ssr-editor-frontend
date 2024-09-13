@@ -4,6 +4,7 @@ import Header from './components/Header.js';
 import Documents from './views/Documents.js';
 import SingleDocument from './views/SingleDocument.js';
 import Footer from './components/Footer.js';
+import ResetDatabase from './views/ResetDatabase.js';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
             <Route path="/" element={<Documents />} />
             <Route path="/docs/:id" element={<SingleDocument />} />
+            <Route path="/reset" element={<ResetDatabase />} />
         </Routes>
        </>
       <Footer />
