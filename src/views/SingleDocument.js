@@ -1,7 +1,12 @@
+import { useParams } from "react-router-dom";
+import DocumentDetails from "../components/DocumentDetails.js";
+
 function SingleDocument() {
+  const slug = useParams();
+
   return (
     <div className="main">
-      <h1>Mitt dokument</h1>
+      < DocumentDetails id={slug.id} />
     </div>
   );
 }
