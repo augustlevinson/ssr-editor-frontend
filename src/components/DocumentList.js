@@ -1,11 +1,20 @@
+import React, { useEffect, useState } from "react";
+
 function DocumentList() {
+  const [documents, setDocuments] = useState([]);
+
+  useEffect(() => {
+      fetch("http://localhost:1337/")
+          .then((response) => response.json())
+          .then((data) => setDocuments(data.docs))
+          .catch((error) => console.error("Error fetching documents:", error));
+  }, []);
+
   return (
     <div>
-      {/* This is a dummy list of documents */}
-      <h2>Test</h2>
-      <h2>Brynäs</h2>
-      <h2>Glass</h2>
-      <h2>Läsk är gott</h2>
+        {documents.map((doc) => (
+            <h2 key={doc.id}>{doc.title}</h2>
+        ))}
     </div>
   );
 }
