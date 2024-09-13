@@ -13,7 +13,7 @@ function DocumentList() {
   return (
     <div>
         {documents.map((doc) => (
-            <h2 key={doc.id}>{doc.title}</h2>
+            <h2 key={doc._id}><a href={'/docs/' + doc._id}>{doc.title}</a></h2>
         ))}
     </div>
   );
