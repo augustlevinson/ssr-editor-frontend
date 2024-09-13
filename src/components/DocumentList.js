@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
+import FetchAll from "../models/FetchAll";
 
 function DocumentList() {
-  const [documents, setDocuments] = useState([]);
-
-  useEffect(() => {
-      fetch("http://localhost:1337/")
-          .then((response) => response.json())
-          .then((data) => setDocuments(data.docs))
-          .catch((error) => console.error("Error fetching documents:", error));
-  }, []);
+  const documents = FetchAll();
 
   return (
     <div>

@@ -16,7 +16,7 @@ function App() {
             <Route path="/docs/:id" element={<SingleDocument />} />
             <Route path="/reset" element={<ResetDatabase />} />
         </Routes>
-       </>
+      </>
       <Footer />
     </div>
   );

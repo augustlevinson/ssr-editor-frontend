@@ -1,12 +1,9 @@
-import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import FetchReset from "../models/FetchReset";
 
 function ResetDb() {
 
-  useEffect(() => {
-      fetch("http://localhost:1337/reset")
-          .then((response) => response.json())
-  }, []);
+  FetchReset();
 
   return <Navigate to="/" replace />;
 }

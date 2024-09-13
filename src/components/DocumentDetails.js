@@ -1,21 +1,13 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import FetchDocumentDetails from "../models/FetchDocumentDetails";
 
 function DocumentDetails() {
-  const [documents, setDocuments] = useState([]);
-  const slug = useParams();
 
-  useEffect(() => {
-      fetch('http://localhost:1337/docs/' + slug.id)
-          .then((response) => response.json())
-          .then((data) => setDocuments(data.doc))
-          .catch((error) => console.error("Error fetching documents:", error));
-  }, []);
+  const document = FetchDocumentDetails();
 
   return (
     <div>
-        <h1>{documents.title}</h1>
-        <p>{documents.content}</p>
+        <h1>{document.title}</h1>
+        <p>{document.content}</p>
     </div>
   );
 }
