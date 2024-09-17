@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 function FetchReset() {
   useEffect(() => {
-    fetch("http://localhost:1337/reset")
+    fetch("https://jsramverk-caas-aule.azurewebsites.net/reset")
         .then((response) => response.json())
 }, []);
 }
