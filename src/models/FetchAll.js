@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { fetchUrl } from "../environment";
 
 function FetchAll() {
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
-      fetch("https://jsramverk-caas-aule.azurewebsites.net/")
+      fetch(fetchUrl)
           .then((response) => response.json())
           .then((data) => setDocuments(data.docs))
           .catch((error) => console.error("Error fetching documents:", error));
