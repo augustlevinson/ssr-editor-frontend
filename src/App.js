@@ -12,7 +12,7 @@ function App() {
       <Header />
       <>
         <Routes>
-            <Route path="~caas23/editor/" element={<Documents />} />
+            <Route path="/" element={<Documents />} />
             <Route path="/docs/:id" element={<SingleDocument />} />
             <Route path="/reset" element={<ResetDatabase />} />
         </Routes>
