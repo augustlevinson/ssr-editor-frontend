@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import { fetchUrl } from "../environment";
 
 function FetchReset() {
   useEffect(() => {
-    fetch("https://jsramverk-caas-aule.azurewebsites.net/reset")
+    fetch(fetchUrl + '/reset')
         .then((response) => response.json())
 }, []);
 }
