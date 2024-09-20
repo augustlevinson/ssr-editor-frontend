@@ -7,7 +7,7 @@ function DocumentList() {
   return (
     <div>
         {documents.map((doc) => (
-          <DocumentListItem doc_id={doc.doc_id} title={doc.title} created={doc.created} />
+          <DocumentListItem doc_id={doc.doc_id} title={doc.title} updated={doc.updated} />
           ))}
     </div>
   );
