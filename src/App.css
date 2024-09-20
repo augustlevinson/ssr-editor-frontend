@@ -72,7 +72,8 @@ header {
 .main {
     width: 96%;
     max-width: 64rem;
-    margin: 1.4rem auto;
+    min-height: fit-content;
+    margin: 1.4rem auto 150px;
     flex: 1 0 auto;
 }
 
@@ -100,34 +101,59 @@ header {
     color: #b43030
 }
 
+.doc-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.4rem;
+}
+
 input,
 textarea {
+    margin: auto;
+    display: block;
+    width: 100%;
     margin-bottom: 1.4rem;
     font-size: 1rem;
     padding: 1.2rem;
-    border-radius: 0.5em;
-    border: solid 1px #919191;
-    background-color: #eae0f5;
+    resize: none;
+}
+
+input {
+    color: #237095;
+    font-weight: 800;
+    font-size: 2em;
+    border: none;
 }
 
 textarea {
-    min-height: 300px;
+    min-height: 900px;
+    border: solid 1px #919191;
+    background-color: #eae0f5;
 }
 
 .submit-button {
     width: fit-content;
     min-width: 200px;
+    padding: 1em;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .red {
     background-color: #b43030;
 }
 
+.purple {
+    background-color: #63299F;
+    color: #fff;
+}
+
 footer {
     background-color: #BEA0DD;
     width: 100%;
-    padding: 1.4rem 8rem;
-    position: absolute;
+    padding: 1rem 8rem;
+    position: fixed;
     bottom: 0;
     a, p {
     color: #212121;
