@@ -6,6 +6,7 @@ import Documents from './views/Documents.js';
 import SingleDocument from './views/SingleDocument.js';
 import Footer from './components/Footer.js';
 import ResetDb from './components/ResetDb.js';
+import DeleteDocument from './components/DeleteDocument.js';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Documents />} />
             <Route path="/create" element={<NewDocument />} />
             <Route path="/docs/:id" element={<SingleDocument />} />
+            <Route path="/delete/:id" element={<DeleteDocument />} />
             <Route path="/reset" element={<ResetDb />} />
         </Routes>
       </>

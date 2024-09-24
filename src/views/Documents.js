@@ -5,6 +5,9 @@ function Documents() {
         <div className="main">
             <h1>Dokument</h1>
             < DocumentList />
+            <div className="wrapper">
+                <a className="submit-button purple" href="/create">Skapa nytt</a>
+            </div>
         </div>
     );
 }
