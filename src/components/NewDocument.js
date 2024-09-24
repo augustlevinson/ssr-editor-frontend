@@ -1,20 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Navigate } from "react-router-dom";
 import FetchAdd from "../models/FetchAdd";
 
 function NewDocument() {
-  const [newDocId, setNewDocId] = useState(null);
+  const [newDoc, setNewDoc] = useState(null);
+  const fetchInitiated = useRef(false)
 
   useEffect(() => {
+    if (fetchInitiated.current) return;
+
+    fetchInitiated.current = true;
+
     const fetchDocument = async () => {
-      const docId = FetchAdd();
-      setNewDocId(docId);
+      const docId = await FetchAdd();
+      setNewDoc(docId);
     };
     fetchDocument();
   }, []);
 
-  if (newDocId !== null) {
-    return <Navigate to={'/'} replace />;
+  if (newDoc !== null) {
+    return <Navigate to={'/docs/' + newDoc.new_id} replace />;
   }
 
   return null;
