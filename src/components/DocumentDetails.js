@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import EditDocumentDetails from "../models/EditDocumentDetails";
 import FetchDocumentDetails from "../models/FetchDocumentDetails";
 
-// detta funkar med alla dokument som läggs in via reset,
-// läggs ett nytt till via /add finns en bugg, men tänker
-// att /add tillhör vidareutvecklingen, så vi kan förbise nu
+// detta funkar med alla dokument som läggs in via reset och add
 
 function DocumentDetails() {
   const document = FetchDocumentDetails();
@@ -24,8 +22,16 @@ function DocumentDetails() {
         title: document.title,
         content: document.content
       });
+      // om content saknas, sätt content till "" (React tolkar "" som false)
+    } else if (document.title) {
+      setDocumentData({
+        title: document.title,
+        content: ""
+      });
     }
   }, [document]);
+
+  const handleFocus = (event) => event.target.select();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,9 +42,9 @@ function DocumentDetails() {
     }));
   };
 
-  // stöd för att spara med ctrl + s
+  // stöd för att spara med ctrl + s eller cmd + s
   const handleKeyDown = (e) => {
-    if (e.ctrlKey && e.key === 's') {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
       e.preventDefault();
       handleSubmit(e);
     }
@@ -63,6 +69,7 @@ function DocumentDetails() {
             type="text"
             name="title"
             value={documentData.title}
+            onFocus={handleFocus}
             onChange={handleChange}
           />
         </div>
