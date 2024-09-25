@@ -15,8 +15,9 @@ function LoginForm() {
     }
 
     const response = await LoginUser(user)
+    console.log(response)
 
-    if (response.ok) {
+    if (response.success) {
       navigate('/');
     } else {
       navigate('/login')
