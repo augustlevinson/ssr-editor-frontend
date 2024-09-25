@@ -108,6 +108,30 @@ header {
     margin-bottom: 1.4rem;
 }
 
+.docRow {
+    margin-bottom: 2em;
+}
+
+.docRowTitle {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: -1em;
+}
+
+.docRowTitle h2 {
+    padding-top: 1em;
+}
+
+.docRowIcon {
+    width: 30px;
+}
+
+.created {
+    font-size: 0.9em;
+    font-style: italic;
+}
+
 input,
 textarea {
     margin: auto;

@@ -1,12 +1,12 @@
 function DocumentListItem(props) {
 
   return (
-    <div class="docRow">
-      <div class="docRowWrapper">
+    <div className="docRow">
+      <div className="docRowTitle">
+        <img className="docRowIcon" src="images/text-icon.png" alt="Document icon" />
         <h2 key={props.doc_id}><a href={'./docs/' + props.doc_id}>{props.title}</a></h2>
-        {/* Vill vi ha sekunder med här? Jag tog bort dem så länge. */}
-        <p class="created">Senast ändrad {props.updated.slice(0, -3)}</p>
       </div>
+        <p className="created">Senast ändrad {props.updated.slice(0, -3)}</p>
     </div>
   );
 }
