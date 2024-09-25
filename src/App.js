@@ -9,6 +9,7 @@ import ResetDb from './components/ResetDb.js';
 import DeleteDocument from './components/DeleteDocument.js';
 import RegisterUser from './models/RegisterUser.js';
 import SignUp from './views/SignUp.js'
+import Login from './views/Login.js'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/delete/:id" element={<DeleteDocument />} />
             <Route path="/reset" element={<ResetDb />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<RegisterUser />} />
         </Routes>
       </>

@@ -1,38 +1,31 @@
 import React, { useState } from "react";
-import RegisterUser from "../models/RegisterUser";
+import LoginUser from "../models/LoginUser";
 import { useNavigate } from "react-router-dom";
 
 
-function SignUpForm() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-
   const navigate = useNavigate();
-  const handleSignup = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const user = {
       email: email,
       password: password
     }
 
-    if (password === passwordConfirmation) {
-      const response = await RegisterUser(user)
+    const response = await LoginUser(user)
 
-      if (response.ok) {
-        navigate('/');
-      } else {
-        navigate('/signup')
-      }
+    if (response.ok) {
+      navigate('/');
     } else {
-      // fixa detta snyggare senare
-      alert("Lösenorden stämmer inte överens.")
+      navigate('/login')
     }
   };
 
   return (
     <div className="doc-wrapper">
-      <form onSubmit={handleSignup}>
+      <form onSubmit={handleLogin}>
         <div>
           <input
             type="email"
@@ -51,19 +44,10 @@ function SignUpForm() {
             required
           />
         </div>
-        <div>
-          <input
-            type="password"
-            name="passwordConfirm"
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
-            placeholder="Bekräfta lösenord..."
-            required
-          />
-        </div>
-        <button className="submit-button purple" type="submit">Registrera</button>
+        <button className="submit-button purple" type="submit">Logga in</button>
       </form>
     </div>
   );
 };
 
-export default SignUpForm;
+export default LoginForm;
