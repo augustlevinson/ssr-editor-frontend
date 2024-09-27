@@ -21,7 +21,7 @@ function SignUpForm() {
     if (password === passwordConfirmation) {
       const response = await RegisterUser(user)
 
-      if (response.success === true) {
+      if (response.success) {
         navigate('/');
       } else {
         navigate('/signup')
