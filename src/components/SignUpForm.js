@@ -9,8 +9,10 @@ function SignUpForm() {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const navigate = useNavigate();
+
   const handleSignup = async (e) => {
     e.preventDefault();
+
     const user = {
       email: email,
       password: password
@@ -19,10 +21,16 @@ function SignUpForm() {
     if (password === passwordConfirmation) {
       const response = await RegisterUser(user)
 
-      if (response.ok) {
+      if (response.success === true) {
         navigate('/');
       } else {
         navigate('/signup')
+        
+        // fixa detta snyggare senare
+        // om vi tror att användaren vill logga in vore redirect till login rimlig,
+        // men kan även vara att en ny användare försöker registrera med en upptagen epost.
+        // ska vi bara ha ett meddelande likt nedan (men snyggare?)
+        alert("Användaren finns redan")
       }
     } else {
       // fixa detta snyggare senare
