@@ -1,7 +1,7 @@
 import { fetchUrl } from "../environment";
 
-async function LoginUser(details) {
-    const response = await fetch(fetchUrl + '/users/login', {
+async function UpdateUser(details) {
+    const response = await fetch(fetchUrl + '/users/update', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -12,4 +12,4 @@ async function LoginUser(details) {
     return await response.json();
 };
 
-export default LoginUser;
+export default UpdateUser;
