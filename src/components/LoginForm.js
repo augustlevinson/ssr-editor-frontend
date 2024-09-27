@@ -1,25 +1,46 @@
 import React, { useState } from "react";
 import LoginUser from "../models/LoginUser";
+import UpdateUser from "../models/UpdateUser";
 import { useNavigate } from "react-router-dom";
 
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    const user = {
+
+    let user = {
       email: email,
       password: password
     }
 
     const response = await LoginUser(user)
-    console.log(response)
 
+    // fixa alertsen snyggare senare
+    // 1. användaren finns inte
+    // 2. lösenordet matchar inte användaren
     if (response.success) {
+
+      const updateUser = {
+        ...user,
+        token: response.jwtToken
+      }
+
+      // lägger till token till användaren
+      // ta bort token om utloggad + ev. andra villkor vi vill ha (ej implementerad ännu)
+      await UpdateUser(updateUser)
+
       navigate('/');
     } else {
+      if (response.reason === "no user") {
+        return alert("Användaren finns inte.")
+      } else if (response.reason === "wrong password") {
+        return alert("Felaktigt lösenord.")
+      }
       navigate('/login')
     }
   };
