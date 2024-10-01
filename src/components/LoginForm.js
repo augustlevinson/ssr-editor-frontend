@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import LoginUser from "../models/LoginUser";
-import UpdateUser from "../models/UpdateUser";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [cookie, setCookie] = useCookies(["user"]);
 
   const navigate = useNavigate();
 
@@ -25,14 +26,12 @@ function LoginForm() {
     // 2. lösenordet matchar inte användaren
     if (response.success) {
 
-      const updateUser = {
-        ...user,
+      const cookieUser = {
+        email: user.email,
         token: response.jwtToken
       }
 
-      // lägger till token till användaren
-      // ta bort token om utloggad + ev. andra villkor vi vill ha (ej implementerad ännu)
-      await UpdateUser(updateUser)
+      setCookie("user", cookieUser)
 
       navigate('/');
     } else {
