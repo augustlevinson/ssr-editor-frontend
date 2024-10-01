@@ -1,8 +1,13 @@
+import { Navigate } from "react-router-dom";
 import FetchAll from "../models/FetchAll";
 import DocumentListItem from "./DocumentListItem";
 
 function DocumentList() {
   const documents = FetchAll();
+  console.log(`documents: ${documents}`)
+  if (documents === "unauthenticated") {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div>
