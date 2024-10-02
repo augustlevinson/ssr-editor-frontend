@@ -5,9 +5,7 @@ import FetchUser from "../models/FetchUser";
 
 function DocumentList() {
   const user = FetchUser()
-  console.log(user)
   const documents = FetchAll(user);
-  console.log(`documents: ${documents}`)
   if (documents === "unauthenticated") {
     return <Navigate to="/login" replace />;
   }
