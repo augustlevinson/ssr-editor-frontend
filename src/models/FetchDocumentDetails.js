@@ -5,7 +5,7 @@ import { fetchUrl } from "../environment";
 function FetchDocumentDetails() {
   const [document, setDocument] = useState([]);
   const slug = useParams();
-
+ 
   useEffect(() => {
       fetch(fetchUrl + '/docs/' + slug.id)
           .then((response) => response.json())
