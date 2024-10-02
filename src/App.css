@@ -185,3 +185,8 @@ footer {
     color: #212121;
     }
 }
+
+.document-bar {
+    width: 100%;
+    background-color: #919191;
+}
