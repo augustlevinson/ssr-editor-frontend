@@ -6,6 +6,7 @@ import Documents from './views/Documents.js';
 import SingleDocument from './views/SingleDocument.js';
 import Footer from './components/Footer.js';
 import ResetDb from './components/ResetDb.js';
+import AcceptInvitation from './components/AcceptInvitation.js';
 import DeleteDocument from './components/DeleteDocument.js';
 import RegisterUser from './models/RegisterUser.js';
 import SignUp from './views/SignUp.js'
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Documents />} />
             <Route path="/create" element={<NewDocument />} />
             <Route path="/docs/:id" element={<SingleDocument />} />
+            <Route path="/accept/:id" element={< AcceptInvitation />} />
             <Route path="/delete/:id" element={<DeleteDocument />} />
             <Route path="/reset" element={<ResetDb />} />
             <Route path="/signup" element={<SignUp />} />
