@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import FetchDocumentDetails from "../models/FetchDocumentDetails";
 import SendInvite from "../models/SendInvite";
+import { mailUrl } from "../environment";
 
 
 
@@ -18,7 +19,8 @@ function DocumentShare() {
       recipient: recipient,
       sender: cookies[0].user.email,
       docTitle: document.title,
-      docId: document._id
+      docId: document._id,
+      url: mailUrl
     }
 
     return await SendInvite(credentials)
