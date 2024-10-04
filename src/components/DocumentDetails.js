@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import EditDocumentDetails from "../models/EditDocumentDetails";
 import FetchDocumentDetails from "../models/FetchDocumentDetails";
+import { useParams } from "react-router-dom";
+import { fetchUrl } from "../environment";
+import { io } from "socket.io-client"
 
 // detta funkar med alla dokument som läggs in via reset och add
 
 function DocumentDetails() {
-  const document = FetchDocumentDetails();
+  // let document = FetchDocumentDetails();
+  const slug = useParams();
 
   // dessa värden sätts innan document hunnit ladda,
   // därför sätts de till "" här, och ändras senare
@@ -13,23 +17,50 @@ function DocumentDetails() {
     title: "",
     content: ""
   });
+  const [socket, setSocket] = useState(null);
 
   // kollar om document har ändrats och
   // uppdaterar DocumentData om ändringar skett
   useEffect(() => {
-    if (document.title && document.content) {
-      setDocumentData({
-        title: document.title,
-        content: document.content
-      });
-      // om content saknas, sätt content till "" (React tolkar "" som false)
-    } else if (document.title) {
-      setDocumentData({
-        title: document.title,
-        content: ""
-      });
-    }
-  }, [document]);
+    const newSocket = io(fetchUrl + '/docs/' + slug.id);
+    setSocket(newSocket);
+
+    newSocket.emit("join", slug.id);
+    console.log("$$$$$$$$$")
+    console.log(newSocket)
+
+    newSocket.on("update", (updatedDoc) => {
+      if (updatedDoc.doc_id === slug.id) {
+        setDocumentData({
+          title: updatedDoc.title,
+          content: updatedDoc.content
+        });
+      }
+    });
+
+    return  () => {
+      newSocket.disconnect();
+    };
+  }, [slug.id]);
+
+  // useEffect(() => {
+  //   const fetchDocument = async () => {
+
+  //     if (document.title && document.content) {
+  //       setDocumentData({
+  //         title: document.title,
+  //         content: document.content
+  //       });
+  //       // om content saknas, sätt content till "" (React tolkar "" som false)
+  //     } else if (document.title) {
+  //       setDocumentData({
+  //         title: document.title,
+  //         content: ""
+  //       });
+  //     }
+  //   }
+  //   fetchDocument();
+  // }, [slug.id]);
 
   const handleFocus = (event) => event.target.select();
 
@@ -42,28 +73,28 @@ function DocumentDetails() {
     }));
   };
 
-  // stöd för att spara med ctrl + s eller cmd + s
-  const handleKeyDown = (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
+  // // stöd för att spara med ctrl + s eller cmd + s
+  // const handleKeyDown = (e) => {
+  //   if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+  //     e.preventDefault();
+  //     handleSubmit(e);
+  //   }
+  // };
   
   // uppdatera backenden när dokumentet sparas
-  const handleSubmit = async (e) => {
+  const handleKeyDown = async (e) => {
     e.preventDefault();
-    const updatedContent = {
-      ...documentData,
-      _id: document._id
-    }
 
-    await EditDocumentDetails(updatedContent);
+    // await EditDocumentDetails(updatedContent);
+
+    if (socket) {
+      socket.emit('updateDocument', documentData);
+    }
   };
 
   return (
     <div className="doc-wrapper">
-      <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
+      <form onKeyDown={handleKeyDown}>
         <div>
           <input
             type="text"
@@ -81,8 +112,6 @@ function DocumentDetails() {
             onChange={handleChange}
           />
         </div>
-
-        <button className="submit-button purple" type="submit">Spara</button>
       </form>
     </div>
   );
