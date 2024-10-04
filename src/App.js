@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import './App.css';
 import Header from './components/Header.js';
 import NewDocument from './components/NewDocument.js';
@@ -11,8 +12,20 @@ import DeleteDocument from './components/DeleteDocument.js';
 import RegisterUser from './models/RegisterUser.js';
 import SignUp from './views/SignUp.js'
 import Login from './views/Login.js'
+import { io } from "socket.io-client";
+import { fetchUrl } from './environment.js';
+
+let socket;
 
 function App() {
+  useEffect(() => {
+    socket = io(fetchUrl);
+    console.log(`socket: ${socket}`)
+
+    return () => {
+      socket.disconnect();
+    }
+  }, []);
   return (
     <div className="App">
       <Header />
