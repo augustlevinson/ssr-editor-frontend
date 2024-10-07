@@ -12,6 +12,8 @@ function DocumentDetails() {
     title: "",
     content: ""
   });
+  
+  // BYT TILL useRef()!!!
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
