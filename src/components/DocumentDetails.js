@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import EditDocumentDetails from "../models/EditDocumentDetails";
-import FetchDocumentDetails from "../models/FetchDocumentDetails";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { fetchUrl } from "../environment";
 import { io } from "socket.io-client";
@@ -13,42 +11,55 @@ function DocumentDetails() {
     content: ""
   });
   
-  // BYT TILL useRef()!!!
-  const [socket, setSocket] = useState(null);
+  const socket = useRef(null);
+  // för att fördröja uppdateringar i dokumentet
+  const deferUpdate = useRef(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:1337", {
-      path: "/socket.io",
-      transports: ["websocket"]
+    socket.current = io(fetchUrl, {
+      path: "/socket.io"
     });
 
-    setSocket(newSocket);
 
-    newSocket.on("connect", () => {
+    socket.current.on("connect", () => {
       console.log("Connected to WebSocket server");
-      newSocket.emit("join", slug.id);
+      socket.current.emit("join", slug.id);
     });
 
-    newSocket.on("connect_error", (err) => {
+    socket.current.on("connect_error", (err) => {
       console.error("Connection error:", err);
     });
 
-    newSocket.on("update", (updatedDoc) => {
+    // hämta title och content från db när vi går in i
+    // dokumentet första gången och dokumentet joinas.
+    // på backenden körs denna inuti joinen, 
+    // så den bör bara triggas en gång.
+    socket.current.on("enterDoc", (document) => {
+      console.log("Initial document:", document);
+      setDocumentData({
+        title: document.title,
+        content: document.content
+      });
+    });
+
+    socket.current.on("update", (updatedDoc) => {
       console.log("Received update:", updatedDoc);
-      // if (updatedDoc.doc_id === slug.id) {
+      if (updatedDoc.doc_id === slug.id) {
         setDocumentData({
           title: updatedDoc.title,
           content: updatedDoc.content
         });
-      // }
+      }
     });
 
-    newSocket.on("disconnect", (reason) => {
+    socket.current.on("disconnect", (reason) => {
       console.log("Disconnected from WebSocket server:", reason);
     });
 
     return () => {
-      newSocket.disconnect();
+      socket.current.off("update");
+      socket.current.off("enterDoc");
+      socket.current.disconnect();
       console.log("Socket disconnected");
     };
   }, [slug.id]);
@@ -57,20 +68,34 @@ function DocumentDetails() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (socket) {
-      console.log("Emitting update:", documentData);
-      socket.emit('update', { doc_id: slug.id, title: documentData.title, content: documentData.content });
-    }
+
     setDocumentData((prevState) => ({
       ...prevState,
       [name]: value === "" ? prevState[name] : value
     }));
+
+    // återställ fördröjning
+    clearTimeout(deferUpdate.current);
+
+    // här får vi sätta en rimlig fördröjning, 300? Kortare? Längre?
+    // kortare tid ger mer live-känsla men kan skapa störningar
+    // sen kanske vi får funderade på bästa sättet att göra nedanstående,
+    // ska vi köra med Timeout eller någon annan väg? Denna funkar iaf.
+    deferUpdate.current = setTimeout(() => {
+      if (socket.current) {
+        console.log("Emitting update:", documentData);
+        socket.current.emit('update', { 
+          doc_id: slug.id,
+          // nedanstående ternary krävs för att förhindra 
+          // att senast inskrivna tecknet försvinner
+          title: name === "title" ? value: documentData.title, 
+          content: name === "content" ? value: documentData.content 
+        });
+      }
+    }, 300)
   };
 
-  // const handleKeyDown = async (e) => {
-  //   e.preventDefault();
-
-  // };
+  
 
   return (
     <div className="doc-wrapper">
