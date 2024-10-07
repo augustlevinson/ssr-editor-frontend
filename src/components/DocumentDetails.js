@@ -3,98 +3,76 @@ import EditDocumentDetails from "../models/EditDocumentDetails";
 import FetchDocumentDetails from "../models/FetchDocumentDetails";
 import { useParams } from "react-router-dom";
 import { fetchUrl } from "../environment";
-import { io } from "socket.io-client"
-
-// detta funkar med alla dokument som läggs in via reset och add
+import { io } from "socket.io-client";
 
 function DocumentDetails() {
-  // let document = FetchDocumentDetails();
   const slug = useParams();
 
-  // dessa värden sätts innan document hunnit ladda,
-  // därför sätts de till "" här, och ändras senare
   const [documentData, setDocumentData] = useState({
     title: "",
     content: ""
   });
   const [socket, setSocket] = useState(null);
 
-  // kollar om document har ändrats och
-  // uppdaterar DocumentData om ändringar skett
   useEffect(() => {
-    const newSocket = io(fetchUrl + '/docs/' + slug.id);
+    const newSocket = io("http://localhost:1337", {
+      path: "/socket.io",
+      transports: ["websocket"]
+    });
+
     setSocket(newSocket);
 
-    newSocket.emit("join", slug.id);
-    console.log("$$$$$$$$$")
-    console.log(newSocket)
+    newSocket.on("connect", () => {
+      console.log("Connected to WebSocket server");
+      newSocket.emit("join", slug.id);
+    });
+
+    newSocket.on("connect_error", (err) => {
+      console.error("Connection error:", err);
+    });
 
     newSocket.on("update", (updatedDoc) => {
-      if (updatedDoc.doc_id === slug.id) {
+      console.log("Received update:", updatedDoc);
+      // if (updatedDoc.doc_id === slug.id) {
         setDocumentData({
           title: updatedDoc.title,
           content: updatedDoc.content
         });
-      }
+      // }
     });
 
-    return  () => {
+    newSocket.on("disconnect", (reason) => {
+      console.log("Disconnected from WebSocket server:", reason);
+    });
+
+    return () => {
       newSocket.disconnect();
+      console.log("Socket disconnected");
     };
   }, [slug.id]);
-
-  // useEffect(() => {
-  //   const fetchDocument = async () => {
-
-  //     if (document.title && document.content) {
-  //       setDocumentData({
-  //         title: document.title,
-  //         content: document.content
-  //       });
-  //       // om content saknas, sätt content till "" (React tolkar "" som false)
-  //     } else if (document.title) {
-  //       setDocumentData({
-  //         title: document.title,
-  //         content: ""
-  //       });
-  //     }
-  //   }
-  //   fetchDocument();
-  // }, [slug.id]);
 
   const handleFocus = (event) => event.target.select();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (socket) {
+      console.log("Emitting update:", documentData);
+      socket.emit('update', { doc_id: slug.id, title: documentData.title, content: documentData.content });
+    }
     setDocumentData((prevState) => ({
       ...prevState,
-      // kollar om någon input har ändrats, i så fall uppdateras värdet.
       [name]: value === "" ? prevState[name] : value
     }));
   };
 
-  // // stöd för att spara med ctrl + s eller cmd + s
-  // const handleKeyDown = (e) => {
-  //   if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-  //     e.preventDefault();
-  //     handleSubmit(e);
-  //   }
+  // const handleKeyDown = async (e) => {
+  //   e.preventDefault();
+
   // };
-  
-  // uppdatera backenden när dokumentet sparas
-  const handleKeyDown = async (e) => {
-    e.preventDefault();
-
-    // await EditDocumentDetails(updatedContent);
-
-    if (socket) {
-      socket.emit('updateDocument', documentData);
-    }
-  };
 
   return (
     <div className="doc-wrapper">
-      <form onKeyDown={handleKeyDown}>
+      <form>
         <div>
           <input
             type="text"
