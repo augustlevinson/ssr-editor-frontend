@@ -2,7 +2,7 @@ function DocumentListSharedItem(props) {
     return (
         <div className="docRow">
             <div className="docRowTitle">
-                <img className="docRowIcon" src="images/text-icon.png" alt="Document icon" />
+                <img className="docRowIcon" src={"images/" + props.type + "-icon.png"} alt="Document icon" />
                 <h2 key={props.doc_id} className={props.invited ? "disabled" : ""}>
                     <a href={"./docs/" + props.doc_id}>{props.title}</a>
                 </h2>

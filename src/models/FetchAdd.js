@@ -1,7 +1,7 @@
 import { fetchUrl } from "../environment";
 
-async function FetchAdd() {
-  const response = await fetch(fetchUrl + '/add', {credentials: 'include'});
+async function FetchAdd(type) {
+  const response = await fetch(fetchUrl + '/add/' + type, {credentials: 'include'});
   const data = await response.json();
   return data;
 }

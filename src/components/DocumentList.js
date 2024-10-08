@@ -19,7 +19,7 @@ function DocumentList() {
         <div>
             <div>
                 {documents.map((doc) => (
-                    <DocumentListItem doc_id={doc.doc_id} title={doc.title} updated={doc.updated} />
+                    <DocumentListItem doc_id={doc.doc_id} title={doc.title} type={doc.type} updated={doc.updated} />
                 ))}
             </div>
             <div>
@@ -28,6 +28,7 @@ function DocumentList() {
                     <DocumentListSharedItem
                         doc_id={doc.doc_id}
                         title={doc.title}
+                        type={doc.type}
                         updated={doc.updated}
                         invited={false}
                     />
@@ -36,6 +37,7 @@ function DocumentList() {
                     <DocumentListSharedItem
                         doc_id={doc.doc_id}
                         title={doc.title}
+                        type={doc.type}
                         updated={doc.updated}
                         invited={true}
                     />
