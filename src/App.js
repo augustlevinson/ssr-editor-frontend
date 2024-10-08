@@ -19,11 +19,13 @@ let socket;
 
 function App() {
   useEffect(() => {
-    socket = io(fetchUrl);
-    console.log(`socket: ${socket}`)
+    // socket = io(fetchUrl);
+    // console.log("=======")
+    // console.log(socket)
+    // console.log("=======")
 
     return () => {
-      socket.disconnect();
+      // socket.disconnect();
     }
   }, []);
   return (

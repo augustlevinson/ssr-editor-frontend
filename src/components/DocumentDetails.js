@@ -1,69 +1,94 @@
-import React, { useState, useEffect } from "react";
-import EditDocumentDetails from "../models/EditDocumentDetails";
-import FetchDocumentDetails from "../models/FetchDocumentDetails";
-
-// detta funkar med alla dokument som läggs in via reset och add
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import { fetchUrl } from "../environment";
+import { io } from "socket.io-client";
 
 function DocumentDetails() {
-  const document = FetchDocumentDetails();
+  const slug = useParams();
 
-  // dessa värden sätts innan document hunnit ladda,
-  // därför sätts de till "" här, och ändras senare
   const [documentData, setDocumentData] = useState({
     title: "",
     content: ""
   });
+  
+  const socket = useRef(null);
+  // för att fördröja uppdateringar i dokumentet
+  const deferUpdate = useRef(null);
 
-  // kollar om document har ändrats och
-  // uppdaterar DocumentData om ändringar skett
   useEffect(() => {
-    if (document.title && document.content) {
+    socket.current = io(fetchUrl, {
+      path: "/socket.io"
+    });
+
+
+    socket.current.on("connect", () => {
+      console.log("Connected to WebSocket server");
+      socket.current.emit("join", slug.id);
+    });
+
+    socket.current.on("connect_error", (err) => {
+      console.error("Connection error:", err);
+    });
+
+    // hämta title och content från db när vi går in i
+    // dokumentet första gången och dokumentet joinas.
+    // på backenden körs denna inuti joinen, 
+    // så den bör bara triggas en gång.
+    socket.current.on("enterDoc", (document) => {
+      console.log("Initial document:", document);
       setDocumentData({
         title: document.title,
         content: document.content
       });
-      // om content saknas, sätt content till "" (React tolkar "" som false)
-    } else if (document.title) {
-      setDocumentData({
-        title: document.title,
-        content: ""
-      });
-    }
-  }, [document]);
+    });
+
+    socket.current.on("update", (updatedDoc) => {
+      console.log("Received update:", updatedDoc);
+      if (updatedDoc.doc_id === slug.id) {
+        setDocumentData({
+          title: updatedDoc.title,
+          content: updatedDoc.content
+        });
+      }
+    });
+
+    socket.current.on("disconnect", (reason) => {
+      console.log("Disconnected from WebSocket server:", reason);
+    });
+
+    return () => {
+      socket.current.off("update");
+      socket.current.off("enterDoc");
+      socket.current.disconnect();
+      console.log("Socket disconnected");
+    };
+  }, [slug.id]);
 
   const handleFocus = (event) => event.target.select();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setDocumentData((prevState) => ({
       ...prevState,
-      // kollar om någon input har ändrats, i så fall uppdateras värdet.
       [name]: value === "" ? prevState[name] : value
     }));
-  };
 
-  // stöd för att spara med ctrl + s eller cmd + s
-  const handleKeyDown = (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault();
-      handleSubmit(e);
+    if (socket.current) {
+      console.log("Emitting update:", documentData);
+      socket.current.emit('update', { 
+        doc_id: slug.id,
+        // nedanstående ternary krävs för att förhindra 
+        // att senast inskrivna tecknet försvinner
+        title: name === "title" ? value: documentData.title, 
+        content: name === "content" ? value: documentData.content 
+      });
     }
-  };
-  
-  // uppdatera backenden när dokumentet sparas
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const updatedContent = {
-      ...documentData,
-      _id: document._id
-    }
-
-    await EditDocumentDetails(updatedContent);
   };
 
   return (
     <div className="doc-wrapper">
-      <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
+      <form>
         <div>
           <input
             type="text"
@@ -81,8 +106,6 @@ function DocumentDetails() {
             onChange={handleChange}
           />
         </div>
-
-        <button className="submit-button purple" type="submit">Spara</button>
       </form>
     </div>
   );
