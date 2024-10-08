@@ -74,28 +74,17 @@ function DocumentDetails() {
       [name]: value === "" ? prevState[name] : value
     }));
 
-    // återställ fördröjning
-    clearTimeout(deferUpdate.current);
-
-    // här får vi sätta en rimlig fördröjning, 300? Kortare? Längre?
-    // kortare tid ger mer live-känsla men kan skapa störningar
-    // sen kanske vi får funderade på bästa sättet att göra nedanstående,
-    // ska vi köra med Timeout eller någon annan väg? Denna funkar iaf.
-    deferUpdate.current = setTimeout(() => {
-      if (socket.current) {
-        console.log("Emitting update:", documentData);
-        socket.current.emit('update', { 
-          doc_id: slug.id,
-          // nedanstående ternary krävs för att förhindra 
-          // att senast inskrivna tecknet försvinner
-          title: name === "title" ? value: documentData.title, 
-          content: name === "content" ? value: documentData.content 
-        });
-      }
-    }, 300)
+    if (socket.current) {
+      console.log("Emitting update:", documentData);
+      socket.current.emit('update', { 
+        doc_id: slug.id,
+        // nedanstående ternary krävs för att förhindra 
+        // att senast inskrivna tecknet försvinner
+        title: name === "title" ? value: documentData.title, 
+        content: name === "content" ? value: documentData.content 
+      });
+    }
   };
-
-  
 
   return (
     <div className="doc-wrapper">
