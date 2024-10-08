@@ -199,3 +199,28 @@ footer {
 .accept-button {
     width: 75px;
 }
+
+.create-doc {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    text-align: center;
+    img {
+        width: 10em;
+        margin: auto;
+    }
+}
+
+.create-doc:hover {
+    scale: 1.025;
+    opacity: 0.8;
+}
+
+.create-doc-wrapper {
+    display: flex;
+    width: fit-content;
+    padding-top: 8em;
+    margin: auto;
+    gap: 8em;
+}
+
