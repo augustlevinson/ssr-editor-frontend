@@ -12,7 +12,6 @@ import DeleteDocument from './components/DeleteDocument.js';
 import RegisterUser from './models/RegisterUser.js';
 import SignUp from './views/SignUp.js'
 import Login from './views/Login.js'
-import AddComment from './components/AddComment.js';
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
             <Route path="/docs/:id" element={<SingleDocument />} />
             <Route path="/accept/:id" element={< AcceptInvitation />} />
             <Route path="/delete/:id" element={<DeleteDocument />} />
-            <Route path="/comment/add" element={<AddComment />} />
             <Route path="/reset" element={<ResetDb />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />

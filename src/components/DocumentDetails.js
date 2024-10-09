@@ -5,13 +5,15 @@ import { io } from "socket.io-client";
 import ContentEditable from "react-contenteditable";
 import FormatButton from "./FormatButton";
 import CommentButton from "./CommentButton";
+import SingleComment from "./SingleComment";
 
 function DocumentDetails() {
   const slug = useParams();
 
   const [documentData, setDocumentData] = useState({
     title: "",
-    content: ""
+    content: "",
+    comments: []
   });
   
   const socket = useRef(null);
@@ -39,17 +41,19 @@ function DocumentDetails() {
       console.log("Initial document:", document);
       setDocumentData({
         title: document.title,
-        content: document.content
+        content: document.content,
+        comments: document.comments
       });
     });
 
     socket.current.on("update", (updatedDoc) => {
       console.log("Received update:", updatedDoc);
       if (updatedDoc.doc_id === slug.id) {
-        setDocumentData({
+        setDocumentData((prevState) => ({
           title: updatedDoc.title,
-          content: updatedDoc.content
-        });
+          content: updatedDoc.content,
+          comments: updatedDoc.comments ? updatedDoc.comments : prevState.comments
+        }));
       }
     });
 
@@ -82,7 +86,8 @@ function DocumentDetails() {
         // nedanstående ternary krävs för att förhindra 
         // att senast inskrivna tecknet försvinner
         title: name === "title" ? value: documentData.title, 
-        content: documentData.content 
+        content: documentData.content,
+        comments: documentData.comments
       });
     }
   };
@@ -106,6 +111,8 @@ function DocumentDetails() {
   };
 
   return (
+    <div className="layout-grid">
+      <div className="main">
     <div className="doc-wrapper">
       <form>
         <div>
@@ -134,6 +141,14 @@ function DocumentDetails() {
           />
         </div>
       </form>
+    </div>
+      </div>
+      <div className="aside-right">
+    <h2>Kommentarer</h2>
+      {documentData.comments.map((comment) => (
+          <SingleComment comment_id={comment.id} content={comment.content} />
+      ))}
+      </div>
     </div>
   );
 };
