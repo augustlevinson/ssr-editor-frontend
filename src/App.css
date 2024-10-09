@@ -143,6 +143,19 @@ textarea {
     resize: none;
 }
 
+.editor-textarea {
+    width: 100%;
+    min-height: 200px;
+    margin-bottom: 1.4rem;
+    padding: 1.2rem;
+    background-color: #eae0f5;
+}
+
+.format-button {
+    padding: 0.5em;
+    width: 2em;
+}
+
 input {
     color: #237095;
     font-weight: 800;

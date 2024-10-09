@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { fetchUrl } from "../environment";
 import { io } from "socket.io-client";
+import ContentEditable from "react-contenteditable";
+import FormatButton from "./FormatButton";
 
 function DocumentDetails() {
   const slug = useParams();
@@ -12,8 +14,6 @@ function DocumentDetails() {
   });
   
   const socket = useRef(null);
-  // för att fördröja uppdateringar i dokumentet
-  const deferUpdate = useRef(null);
 
   useEffect(() => {
     socket.current = io(fetchUrl, {
@@ -66,7 +66,7 @@ function DocumentDetails() {
 
   const handleFocus = (event) => event.target.select();
 
-  const handleChange = (e) => {
+  const handleTitleChange = (e) => {
     const { name, value } = e.target;
 
     setDocumentData((prevState) => ({
@@ -81,7 +81,25 @@ function DocumentDetails() {
         // nedanstående ternary krävs för att förhindra 
         // att senast inskrivna tecknet försvinner
         title: name === "title" ? value: documentData.title, 
-        content: name === "content" ? value: documentData.content 
+        content: documentData.content 
+      });
+    }
+  };
+
+  const handleContentChange = (e) => {
+    const value = e.target.value;
+
+    setDocumentData((prevState) => ({
+      ...prevState,
+      content: value
+    }));
+
+    if (socket.current) {
+      console.log("Emitting update:", documentData);
+      socket.current.emit('update', { 
+        doc_id: slug.id,
+        title: documentData.title, 
+        content: value 
       });
     }
   };
@@ -95,15 +113,20 @@ function DocumentDetails() {
             name="title"
             value={documentData.title}
             onFocus={handleFocus}
-            onChange={handleChange}
+            onChange={handleTitleChange}
           />
         </div>
 
         <div>
-          <textarea
-            name="content"
-            value={documentData.content}
-            onChange={handleChange}
+          <FormatButton cmd="bold" name="B"/>
+          <FormatButton cmd="italic" name="I"/>
+          <FormatButton cmd="underline" name="U"/>
+          <ContentEditable
+          className="editor-textarea"
+            tagName="pre"
+            html={documentData.content}
+            onChange={handleContentChange}
+            
           />
         </div>
       </form>
