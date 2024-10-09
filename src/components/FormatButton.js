@@ -1,4 +1,4 @@
-const FormatButton = (props) => {
+function FormatButton(props) {
   return (
     <button
     className="format-button"

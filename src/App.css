@@ -237,3 +237,12 @@ footer {
     gap: 8em;
 }
 
+.comment-highlight {
+    background-color: #BEA0DD;
+    opacity: 0.8;
+}
+
+.comment-highlight:hover {
+    opacity: 1;
+}
+
