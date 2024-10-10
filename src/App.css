@@ -251,3 +251,21 @@ footer {
     grid-template-columns: 3fr 1fr;
     gap: 3em;
 }
+
+.single-comment-wrapper {
+    width: 40%;
+    padding: .5em;
+    margin-bottom: .5em;
+    background-color: #eae0f5;
+}
+
+.comment-first-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-delete-btn {
+    max-height: 14px;
+    max-width: 14px;
+    font-size: 10px;
+}
