@@ -20,6 +20,9 @@ function CommentButton(props) {
       content: commentText
     }
 
+    setOpenComment(!openComment);
+    setCommentText("")
+
     await AddComment(commentDetails)
   }
 

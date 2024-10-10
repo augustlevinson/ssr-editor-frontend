@@ -134,11 +134,10 @@ function DocumentDetails() {
           </div>
           <CommentButton cmd="insertHTML" name="Kommentar" doc_id={slug.id}/>
           <ContentEditable
-          className="editor-textarea"
+            className="editor-textarea"
             tagName="pre"
             html={documentData.content}
             onChange={handleContentChange}
-            
           />
         </div>
       </form>
@@ -147,7 +146,13 @@ function DocumentDetails() {
       <div className="aside-right">
     <h2>Kommentarer</h2>
       {documentData.comments.map((comment) => (
-          <SingleComment comment_id={comment.id} content={comment.content} />
+          <SingleComment 
+            doc_id={slug.id}
+            comment_id={comment.id} 
+            content={comment.content} 
+            user={comment.user} 
+            created={comment.created} 
+          />
       ))}
       </div>
     </div>
