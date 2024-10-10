@@ -105,7 +105,8 @@ function DocumentDetails() {
       socket.current.emit('update', { 
         doc_id: slug.id,
         title: documentData.title, 
-        content: value 
+        content: value,
+        comments: documentData.comments
       });
     }
   };
