@@ -3,17 +3,14 @@ import { useParams } from "react-router-dom";
 import { fetchUrl } from "../environment";
 import { io } from "socket.io-client";
 import ContentEditable from "react-contenteditable";
-import FormatButton from "./FormatButton";
-import CommentButton from "./CommentButton";
-import SingleComment from "./SingleComment";
+import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
 
-function DocumentDetails() {
+function CodeDocumentDetails() {
   const slug = useParams();
 
   const [documentData, setDocumentData] = useState({
     title: "",
     content: "",
-    comments: []
   });
   
   const socket = useRef(null);
@@ -42,18 +39,16 @@ function DocumentDetails() {
       setDocumentData({
         title: document.title,
         content: document.content,
-        comments: document.comments
       });
     });
 
     socket.current.on("update", (updatedDoc) => {
       console.log("Received update:", updatedDoc);
       if (updatedDoc.doc_id === slug.id) {
-        setDocumentData((prevState) => ({
+        setDocumentData({
           title: updatedDoc.title,
           content: updatedDoc.content,
-          comments: updatedDoc.comments ? updatedDoc.comments : prevState.comments
-        }));
+        });
       }
     });
 
@@ -87,14 +82,11 @@ function DocumentDetails() {
         // att senast inskrivna tecknet försvinner
         title: name === "title" ? value: documentData.title, 
         content: documentData.content,
-        comments: documentData.comments
       });
     }
   };
 
-  const handleContentChange = (e) => {
-    const value = e.target.value;
-
+  const handleContentChange = (value) => {
     setDocumentData((prevState) => ({
       ...prevState,
       content: value
@@ -106,7 +98,6 @@ function DocumentDetails() {
         doc_id: slug.id,
         title: documentData.title, 
         content: value,
-        comments: documentData.comments
       });
     }
   };
@@ -127,12 +118,13 @@ function DocumentDetails() {
         </div>
 
         <div>
-          <div className="format-buttons">
-            <FormatButton cmd="bold" name="B"/>
-            <FormatButton cmd="italic" name="I"/>
-            <FormatButton cmd="underline" name="U"/>
-          </div>
-          <CommentButton cmd="insertHTML" name="Kommentar" doc_id={slug.id}/>
+        <Editor
+        height="400px"
+        defaultLanguage="javascript"
+        value={documentData.content}
+        onChange={handleContentChange}
+        theme="vs-dark"
+        />
           <ContentEditable
             className="editor-textarea"
             tagName="pre"
@@ -144,19 +136,10 @@ function DocumentDetails() {
     </div>
       </div>
       <div className="aside-right">
-    <h2>Kommentarer</h2>
-      {documentData.comments.map((comment) => (
-          <SingleComment 
-            doc_id={slug.id}
-            comment_id={comment.id} 
-            content={comment.content} 
-            user={comment.user} 
-            created={comment.created} 
-          />
-      ))}
-      </div>
+    <h2>Terminal</h2>
+    </div>
     </div>
   );
 };
 
-export default DocumentDetails;
+export default CodeDocumentDetails;

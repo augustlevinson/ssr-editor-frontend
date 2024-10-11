@@ -19,11 +19,11 @@ function NewDocument() {
     fetchDocument();
   }, []);
 
-  if (slug === 'code') {
-    // koddokument
+  if (slug.type === 'code' && newDoc !== null) {
+      return <Navigate to={'/docs/code/' + newDoc.new_id} replace />;
   } else {
     if (newDoc !== null) {
-      return <Navigate to={'/docs/' + newDoc.new_id} replace />;
+      return <Navigate to={'/docs/text/' + newDoc.new_id} replace />;
     }
   }
 

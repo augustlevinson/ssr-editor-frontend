@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
 
-function DocumentDetails() {
+function CodeDocumentDetails() {
   return (
+    <div className="main">
     <div className="doc-wrapper">
       <Editor
         height="400px"
@@ -15,7 +16,8 @@ function DocumentDetails() {
         theme="vs-dark"
     />
     </div>
+    </div>
   );
 };
 
-export default DocumentDetails;
+export default CodeDocumentDetails;

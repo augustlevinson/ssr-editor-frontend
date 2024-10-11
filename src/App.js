@@ -4,7 +4,8 @@ import Header from './components/Header.js';
 import CreateDocument from './views/CreateDocument.js';
 import NewDocument from './components/NewDocument.js';
 import Documents from './views/Documents.js';
-import SingleDocument from './views/SingleDocument.js';
+import SingleTextDocument from './views/SingleTextDocument.js';
+import SingleCodeDocument from './views/SingleCodeDocument.js';
 import Footer from './components/Footer.js';
 import ResetDb from './components/ResetDb.js';
 import AcceptInvitation from './components/AcceptInvitation.js';
@@ -22,7 +23,8 @@ function App() {
             <Route path="/" element={<Documents />} />
             <Route path="/create" element={< CreateDocument />} />
             <Route path="/create/:type" element={< NewDocument />} />
-            <Route path="/docs/:id" element={<SingleDocument />} />
+            <Route path="/docs/text/:id" element={<SingleTextDocument />} />
+            <Route path="/docs/code/:id" element={<SingleCodeDocument />} />
             <Route path="/accept/:id" element={< AcceptInvitation />} />
             <Route path="/delete/:id" element={<DeleteDocument />} />
             <Route path="/reset" element={<ResetDb />} />
