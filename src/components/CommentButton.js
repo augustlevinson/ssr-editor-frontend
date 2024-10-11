@@ -1,26 +1,40 @@
 import React, { useState } from "react";
 import AddComment from "../models/AddComment";
+import DeleteComment from "../models/DeleteComment";
 
 function CommentButton(props) {
   const [openComment, setOpenComment] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [id, setId] = useState(null); // Vi använder state så att ID:t inte dubbelgenereras
+ 
   const handleCommentChange = (e) => {
     const comment = e.target.value;
     setCommentText(comment);
   };
 
+  let commentDetails;
+
   const handleSubmit = async () => {
-    const commentDetails = {
-      doc_id: props.doc_id,
-      comment_id: id,
-      content: commentText,
-    };
+    if (commentText === "") {
+      commentDetails = {
+        doc_id: props.doc_id,
+        comment_id: id,
+      };
+      setOpenComment(!openComment);
+      await DeleteComment(commentDetails)
+    } else {
+      commentDetails = {
+        doc_id: props.doc_id,
+        comment_id: id,
+        content: commentText,
+      };
+  
+      setOpenComment(!openComment);
+      setCommentText("");
+  
+      await AddComment(commentDetails);
+    }
 
-    setOpenComment(!openComment);
-    setCommentText("");
-
-    await AddComment(commentDetails);
   };
 
   const handleButtonClick = (e) => {
