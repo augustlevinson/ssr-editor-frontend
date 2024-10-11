@@ -154,6 +154,20 @@ textarea {
 .format-button {
     padding: 0.5em;
     width: 2em;
+    font-family: serif;
+    font-size: 1em;
+}
+
+.bold {
+    font-weight: 800;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.underline {
+    text-decoration: underline;
 }
 
 input {

@@ -1,7 +1,7 @@
 function FormatButton(props) {
   return (
     <button
-    className="format-button"
+    className={`format-button ${props.cmd}`}
       key={props.cmd}
       type="button" // Ensure the button is not of type "submit"
       onMouseDown={(e) => {
