@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { fetchUrl } from "../environment";
 import { io } from "socket.io-client";
-import ContentEditable from "react-contenteditable";
 import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+import ExecuteCode from "../models/ExecuteCode";
 
 function CodeDocumentDetails() {
   const slug = useParams();
@@ -12,6 +12,8 @@ function CodeDocumentDetails() {
     title: "",
     content: "",
   });
+
+  const [codeOutput, setCodeOutput] = useState("")
   
   const socket = useRef(null);
 
@@ -102,6 +104,12 @@ function CodeDocumentDetails() {
     }
   };
 
+  const execute = async (e) => {
+    e.preventDefault();
+    const output = await ExecuteCode(documentData.content)
+    setCodeOutput(output)
+  }
+
   return (
     <div className="layout-grid">
       <div className="main">
@@ -119,25 +127,27 @@ function CodeDocumentDetails() {
 
         <div>
         <Editor
-        height="400px"
-        defaultLanguage="javascript"
-        value={documentData.content}
-        onChange={handleContentChange}
-        theme="vs-dark"
+          height="400px"
+          defaultLanguage="javascript"
+          value={documentData.content}
+          onChange={handleContentChange}
+          theme="vs-dark"
         />
-          <ContentEditable
-            className="editor-textarea"
-            tagName="pre"
-            html={documentData.content}
-            onChange={handleContentChange}
-          />
         </div>
+        <button onClick={execute}>
+          Kör
+        </button>
       </form>
     </div>
       </div>
       <div className="aside-right">
-    <h2>Terminal</h2>
-    </div>
+          <h2>Output</h2>
+          <div className="code-output">
+              {codeOutput.split('\n').map((line, index) => (
+                  <p key={index}>{line}</p>
+              ))}
+          </div>
+      </div>
     </div>
   );
 };

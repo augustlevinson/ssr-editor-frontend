@@ -283,3 +283,11 @@ footer {
     max-width: 14px;
     font-size: 10px;
 }
+
+.code-output {
+    background-color: #eae0f5;
+}
+.code-output p {
+    font-family: monospace, 'Courier New', Courier;
+    margin-bottom: 0;
+}
