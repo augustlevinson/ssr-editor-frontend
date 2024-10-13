@@ -117,6 +117,7 @@ function CodeDocumentDetails() {
       <form>
         <div>
           <input
+            className="title-input"
             type="text"
             name="title"
             value={documentData.title}

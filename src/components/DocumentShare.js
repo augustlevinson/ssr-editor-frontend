@@ -27,10 +27,13 @@ function DocumentShare() {
   };
 
   return (
-    <div className="doc-wrapper">
-      <form onSubmit={handleSubmit}>
+    <div>
+      <form
+        className="invite-form"
+        onSubmit={handleSubmit}>
         <div>
           <input
+            class="invite-input"
             type="email"
             name="email"
             onChange={(e) => setRecipient(e.target.value)}
@@ -38,7 +41,7 @@ function DocumentShare() {
             required
           />
         </div>
-        <button className="submit-button purple" type="submit">Bjud in</button>
+        <button className="small-button dark-blue" type="submit">Skicka inbjudan</button>
       </form>
     </div>
   );

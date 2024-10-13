@@ -114,37 +114,38 @@ function TextDocumentDetails() {
   return (
     <div className="layout-grid">
       <div className="main">
-    <div className="doc-wrapper">
-      <form>
-        <div>
-          <input
-            type="text"
-            name="title"
-            value={documentData.title}
-            onFocus={handleFocus}
-            onChange={handleTitleChange}
-          />
-        </div>
+        <div className="doc-wrapper">
+          <form>
+            <div>
+              <input
+                className="title-input"
+                type="text"
+                name="title"
+                value={documentData.title}
+                onFocus={handleFocus}
+                onChange={handleTitleChange}
+              />
+            </div>
 
-        <div>
-          <div className="format-buttons">
-            <FormatButton cmd="bold" name="B"/>
-            <FormatButton cmd="italic" name="I"/>
-            <FormatButton cmd="underline" name="U"/>
-          </div>
-          <CommentButton cmd="insertHTML" name="Kommentar" doc_id={slug.id}/>
-          <ContentEditable
-            className="editor-textarea"
-            tagName="pre"
-            html={documentData.content}
-            onChange={handleContentChange}
-          />
+            <div>
+              <div className="format-buttons">
+                <FormatButton cmd="bold" name="B"/>
+                <FormatButton cmd="italic" name="I"/>
+                <FormatButton cmd="underline" name="U"/>
+              </div>
+              <CommentButton cmd="insertHTML" name="Kommentar" doc_id={slug.id}/>
+              <ContentEditable
+                className="editor-textarea"
+                tagName="pre"
+                html={documentData.content}
+                onChange={handleContentChange}
+              />
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
       </div>
       <div className="aside-right">
-    <h2>Kommentarer</h2>
+      <h2>Kommentarer</h2>
       {documentData.comments.map((comment) => (
           <SingleComment 
             doc_id={slug.id}

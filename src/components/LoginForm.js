@@ -46,9 +46,12 @@ function LoginForm() {
 
   return (
     <div className="doc-wrapper">
-      <form onSubmit={handleLogin}>
+      <form 
+        className="login-form"
+        onSubmit={handleLogin}>
         <div>
           <input
+            className="login-input"
             type="email"
             name="email"
             onChange={(e) => setEmail(e.target.value)}
@@ -58,6 +61,7 @@ function LoginForm() {
         </div>
         <div>
           <input
+            className="login-input"
             type="password"
             name="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -65,7 +69,7 @@ function LoginForm() {
             required
           />
         </div>
-        <button className="submit-button purple" type="submit">Logga in</button>
+        <button className="submit-button dark-blue" type="submit">Logga in</button>
       </form>
     </div>
   );
