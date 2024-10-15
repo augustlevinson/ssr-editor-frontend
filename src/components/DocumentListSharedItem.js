@@ -1,3 +1,4 @@
+import { baseUrl } from "../environment";
 function DocumentListSharedItem(props) {
     return (
         <div className="docRow">
@@ -6,7 +7,7 @@ function DocumentListSharedItem(props) {
                 <h2 key={props.doc_id} className={props.invited ? "disabled" : ""}>
                     <a href={"./docs/" + props.type + "/" + props.doc_id}>{props.title}</a>
                 </h2>
-                {props.invited ? <a className="accept-button purple" href={"/accept/" + props.doc_id}>Acceptera inbjudan</a> : "" }
+                {props.invited ? <a className="accept-button purple" href={baseUrl + "/accept/" + props.doc_id}>Acceptera inbjudan</a> : "" }
             </div>
             <p className="created">Senast ändrad {props.updated.slice(0, -3)}</p>
         </div>

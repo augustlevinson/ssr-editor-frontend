@@ -9,10 +9,6 @@ function DocumentList() {
     const invited = FetchRole("invited");
     const collaborator = FetchRole("collaborator");
 
-    console.log(documents)
-    console.log(invited)
-    console.log(collaborator)
-
     if (documents === "unauthenticated") {
         return <Navigate to="/login" replace />;
     }
