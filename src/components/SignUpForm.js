@@ -68,7 +68,7 @@ function SignUpForm() {
             required
           />
         </div>
-        <button className="submit-button purple" type="submit">Registrera</button>
+        <button className="submit-button dark-blue" type="submit">Registrera</button>
       </form>
     </div>
   );
