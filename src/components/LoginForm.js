@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import LoginUser from "../models/LoginUser";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from 'react-cookie';
 
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cookie, setCookie] = useCookies(["user"]);
 
   const navigate = useNavigate();
 
@@ -26,12 +24,12 @@ function LoginForm() {
     // 2. lösenordet matchar inte användaren
     if (response.success) {
 
-      const cookieUser = {
+      const storeUser = {
         email: user.email,
         token: response.jwtToken
       }
 
-      setCookie("user", cookieUser)
+      sessionStorage.setItem("user", JSON.stringify(storeUser))
 
       navigate('/');
     } else {
@@ -46,9 +44,12 @@ function LoginForm() {
 
   return (
     <div className="doc-wrapper">
-      <form onSubmit={handleLogin}>
+      <form 
+        className="login-form"
+        onSubmit={handleLogin}>
         <div>
           <input
+            className="login-input"
             type="email"
             name="email"
             onChange={(e) => setEmail(e.target.value)}
@@ -58,6 +59,7 @@ function LoginForm() {
         </div>
         <div>
           <input
+            className="login-input"
             type="password"
             name="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -65,7 +67,7 @@ function LoginForm() {
             required
           />
         </div>
-        <button className="submit-button purple" type="submit">Logga in</button>
+        <button className="submit-button dark-blue" type="submit">Logga in</button>
       </form>
     </div>
   );

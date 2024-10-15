@@ -7,6 +7,7 @@ async function LoginUser(details) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(details),
+        credentials: 'include'
     })
 
     return await response.json();
