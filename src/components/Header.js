@@ -1,7 +1,8 @@
 import { baseUrl } from "../environment.js";
 
 function Header() {
-  const user = sessionStorage.getItem("user");
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  
 
   return (
       <header className="App-header">
