@@ -5,13 +5,18 @@ import DocumentListSharedItem from "./DocumentListSharedItem";
 import FetchRole from "../models/FetchRole";
 
 function DocumentList() {
-    const documents = FetchAll();
-    const invited = FetchRole("invited");
-    const collaborator = FetchRole("collaborator");
-
-    if (documents === "unauthenticated") {
+    let documents;
+    let invited;
+    let collaborator;
+    
+    if (sessionStorage.getItem("user") === null) {
         return <Navigate to="/login" replace />;
+    } else {
+        documents = FetchAll();
+        invited = FetchRole("invited");
+        collaborator = FetchRole("collaborator");
     }
+
 
     return (
         <div>

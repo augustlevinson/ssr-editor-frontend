@@ -7,6 +7,7 @@ function Footer() {
       <a href={`${baseUrl}/reset`}>Återställ databas</a>
       <a style={{marginLeft: 1 + 'em'}} href={`${baseUrl}/signup`}>Skapa användare</a>
       <a style={{marginLeft: 1 + 'em'}} href={`${baseUrl}/login`}>Logga in</a>
+      <a style={{marginLeft: 1 + 'em'}} href={`${baseUrl}/logout`}>Logga ut</a>
     </footer>
   );
 }

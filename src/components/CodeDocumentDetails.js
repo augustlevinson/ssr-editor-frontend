@@ -18,6 +18,7 @@ function CodeDocumentDetails() {
   const socket = useRef(null);
 
   useEffect(() => {
+
     socket.current = io(fetchUrl, {
       path: "/socket.io"
     });
