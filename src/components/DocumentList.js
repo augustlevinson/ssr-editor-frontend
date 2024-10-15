@@ -2,14 +2,16 @@ import { Navigate } from "react-router-dom";
 import FetchAll from "../models/FetchAll";
 import DocumentListItem from "./DocumentListItem";
 import DocumentListSharedItem from "./DocumentListSharedItem";
-import FetchUser from "../models/FetchUser";
 import FetchRole from "../models/FetchRole";
 
 function DocumentList() {
-    const user = FetchUser();
-    const documents = FetchAll(user);
+    const documents = FetchAll();
     const invited = FetchRole("invited");
     const collaborator = FetchRole("collaborator");
+
+    console.log(documents)
+    console.log(invited)
+    console.log(collaborator)
 
     if (documents === "unauthenticated") {
         return <Navigate to="/login" replace />;

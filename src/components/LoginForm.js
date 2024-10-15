@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import LoginUser from "../models/LoginUser";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from 'react-cookie';
 
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cookie, setCookie] = useCookies(["user"]);
 
   const navigate = useNavigate();
 
@@ -26,12 +24,12 @@ function LoginForm() {
     // 2. lösenordet matchar inte användaren
     if (response.success) {
 
-      const cookieUser = {
+      const storeUser = {
         email: user.email,
         token: response.jwtToken
       }
 
-      setCookie("user", cookieUser)
+      sessionStorage.setItem("user", JSON.stringify(storeUser))
 
       navigate('/');
     } else {

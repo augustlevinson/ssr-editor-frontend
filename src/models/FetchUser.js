@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { fetchUrl } from "../environment";
-import { useCookies } from 'react-cookie';
 
 function FetchUser() {
   const [user, setUser] = useState([]);
-  const cookies = useCookies();
+  const storedUser = sessionStorage.getItem("user");
+
   let email;
-  if (cookies[0].user) {
-    email = cookies[0].user.email;
+  if (storedUser) {
+    email = storedUser.email;
   }
 
   useEffect(() => {
-      fetch(fetchUrl + '/users/' + email)
+      fetch(fetchUrl + '/users/' + email, {credentials: 'include'})
           .then((response) => response.json())
           .then((data) => setUser(data.user))
           .catch((error) => console.error("Error fetching user details:", error));

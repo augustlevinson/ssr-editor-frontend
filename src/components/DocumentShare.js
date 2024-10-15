@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useCookies } from "react-cookie";
 import FetchDocumentDetails from "../models/FetchDocumentDetails";
 import SendInvite from "../models/SendInvite";
 import { mailUrl } from "../environment";
@@ -8,16 +7,17 @@ import { mailUrl } from "../environment";
 
 function DocumentShare() {
   const [recipient, setRecipient] = useState("");
-  const cookies = useCookies();
 
   const document = FetchDocumentDetails();
 
+  const user = sessionStorage.getItem("user");
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     let credentials = {
       recipient: recipient,
-      sender: cookies[0].user.email,
+      sender: user.email,
       docTitle: document.title,
       docId: document._id,
       url: mailUrl
