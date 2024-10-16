@@ -10,7 +10,7 @@ function DocumentShare() {
 
   const document = FetchDocumentDetails();
 
-  const user = sessionStorage.getItem("user");
+  const user = JSON.parse(sessionStorage.getItem("user"));
   
   const handleSubmit = async (e) => {
     e.preventDefault();
