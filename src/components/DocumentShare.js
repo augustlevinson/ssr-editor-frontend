@@ -4,7 +4,6 @@ import SendInvite from "../models/SendInvite";
 import { mailUrl } from "../environment";
 
 
-
 function DocumentShare() {
   const [recipient, setRecipient] = useState("");
 
@@ -14,16 +13,20 @@ function DocumentShare() {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     let credentials = {
       recipient: recipient,
       sender: user.email,
-      docTitle: document.title,
-      docId: document._id,
+      doc_id: document.doc_id,
       url: mailUrl
     }
 
-    return await SendInvite(credentials)
+    if (!credentials.recipient === credentials.sender) {
+      return await SendInvite(credentials)
+    } else {
+      alert("Du har redan tillgång till dokumentet.")
+    }
+
   };
 
   return (
