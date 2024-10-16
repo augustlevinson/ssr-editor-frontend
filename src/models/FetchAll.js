@@ -3,7 +3,6 @@ import { fetchUrl } from "../environment";
 
 function FetchAll() {
   const user = sessionStorage.getItem("user");
-  console.log(user)
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
