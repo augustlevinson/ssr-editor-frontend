@@ -4,7 +4,6 @@ async function FetchAccept(slug) {
   const user = sessionStorage.getItem("user");
 
   const response = await fetch(fetchUrl + '/accept/' + slug.id, {
-    credentials: 'include',
     headers: {
       'Session-Variable': user,
     },

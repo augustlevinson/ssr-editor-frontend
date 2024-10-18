@@ -148,6 +148,7 @@ function TextDocumentDetails() {
       <h2>Kommentarer</h2>
       {documentData.comments.map((comment) => (
           <SingleComment 
+            key={comment.id}
             doc_id={slug.id}
             comment_id={comment.id} 
             content={comment.content} 

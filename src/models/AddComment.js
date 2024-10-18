@@ -9,8 +9,7 @@ async function AddComment(details) {
         'Content-Type': 'application/json',
         'Session-Variable': user,
     },
-    body: JSON.stringify(details),
-    credentials: 'include'
+    body: JSON.stringify(details)
     });   
 };
 

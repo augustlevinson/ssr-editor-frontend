@@ -11,7 +11,7 @@ function FetchUser() {
   }
 
   useEffect(() => {
-      fetch(fetchUrl + '/users/' + email, {credentials: 'include'})
+      fetch(fetchUrl + '/users/' + email)
           .then((response) => response.json())
           .then((data) => setUser(data.user))
           .catch((error) => console.error("Error fetching user details:", error));
