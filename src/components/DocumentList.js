@@ -1,34 +1,61 @@
 import { Navigate } from "react-router-dom";
-import FetchAll from "../models/FetchAll";
+import FetchAllGraphql from "../models/FetchAllGraphql";
 import DocumentListItem from "./DocumentListItem";
 import DocumentListSharedItem from "./DocumentListSharedItem";
-import FetchRole from "../models/FetchRole";
+import FetchRoleGraphql from "../models/FetchRoleGraphql";
 
 function DocumentList() {
-    let documents;
-    let invited;
-    let collaborator;
+    let documents_gql;
+    let invited_gql;
+    let collaborator_gql;
+    const user = sessionStorage.getItem("user");
     
-    if (sessionStorage.getItem("user") === null) {
+    if (user === null) {
         return <Navigate to="/login" replace />;
     } else {
-        documents = FetchAll();
-        invited = FetchRole("invited");
-        collaborator = FetchRole("collaborator");
+        const email = JSON.parse(user).email
+        const token = JSON.parse(user).token
+        const query = `{ docs
+                (email: "${email}", token: "${token}")
+                { doc_id title type updated}
+            }`
+
+        documents_gql = FetchAllGraphql(query);
+        // documents = FetchAll();
+
+        invited_gql = FetchRoleGraphql("invited");
+        // invited = FetchRole("invited");
+
+        collaborator_gql = FetchRoleGraphql("collaborator");
+        // collaborator = FetchRole("collaborator");
     }
 
 
     return (
         <div>
             <div>
-                {documents.map((doc) => (
-                    <DocumentListItem doc_id={doc.doc_id} title={doc.title} type={doc.type} updated={doc.updated} />
+                {documents_gql.map((doc) => (
+                    <DocumentListItem
+                        key={doc.doc_id}
+                        doc_id={doc.doc_id}
+                        title={doc.title}
+                        type={doc.type}
+                        updated={doc.updated} />
                 ))}
+                {/* {documents.map((doc) => (
+                    <DocumentListItem
+                        key={doc.doc_id}
+                        doc_id={doc.doc_id}
+                        title={doc.title}
+                        type={doc.type}
+                        updated={doc.updated} />
+                ))} */}
             </div>
             <div>
                 <h1>Delas med mig</h1>
-                {collaborator.map((doc) => (
+                {collaborator_gql.map((doc) => (
                     <DocumentListSharedItem
+                        key={doc.doc_id}
                         doc_id={doc.doc_id}
                         title={doc.title}
                         type={doc.type}
@@ -36,8 +63,9 @@ function DocumentList() {
                         invited={false}
                     />
                 ))}
-                {invited.map((doc) => (
+                {invited_gql.map((doc) => (
                     <DocumentListSharedItem
+                        key={doc.doc_id}
                         doc_id={doc.doc_id}
                         title={doc.title}
                         type={doc.type}

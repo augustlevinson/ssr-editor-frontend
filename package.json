@@ -2,7 +2,7 @@
   "name": "ssr-editor-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "~aule23/editor",
+  "homepage": ".",
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
     "@testing-library/jest-dom": "^5.17.0",

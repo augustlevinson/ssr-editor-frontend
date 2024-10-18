@@ -7,7 +7,6 @@ function FetchRole(role) {
 
   useEffect(() => {
       fetch(fetchUrl + "/role/" + role, {
-        credentials: 'include',
         headers: {
           'Session-Variable': user,
         },

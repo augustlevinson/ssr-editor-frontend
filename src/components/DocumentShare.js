@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FetchDocumentDetails from "../models/FetchDocumentDetails";
+import FetchDocumentDetailsGraphql from "../models/FetchDocumentDetailsGraphql";
 import SendInvite from "../models/SendInvite";
 import { mailUrl } from "../environment";
 
@@ -7,7 +7,7 @@ import { mailUrl } from "../environment";
 function DocumentShare() {
   const [recipient, setRecipient] = useState("");
 
-  const document = FetchDocumentDetails();
+  const document = FetchDocumentDetailsGraphql();
 
   const user = JSON.parse(sessionStorage.getItem("user"));
   
@@ -36,7 +36,7 @@ function DocumentShare() {
         onSubmit={handleSubmit}>
         <div>
           <input
-            class="invite-input"
+            className="invite-input"
             type="email"
             name="email"
             onChange={(e) => setRecipient(e.target.value)}
