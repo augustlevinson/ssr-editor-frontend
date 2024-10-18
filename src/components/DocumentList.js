@@ -1,15 +1,13 @@
 import { Navigate } from "react-router-dom";
-import FetchAll from "../models/FetchAll";
 import FetchAllGraphql from "../models/FetchAllGraphql";
 import DocumentListItem from "./DocumentListItem";
 import DocumentListSharedItem from "./DocumentListSharedItem";
-import FetchRole from "../models/FetchRole";
+import FetchRoleGraphql from "../models/FetchRoleGraphql";
 
 function DocumentList() {
     let documents_gql;
-    let documents;
-    let invited;
-    let collaborator;
+    let invited_gql;
+    let collaborator_gql;
     const user = sessionStorage.getItem("user");
     
     if (user === null) {
@@ -24,8 +22,12 @@ function DocumentList() {
 
         documents_gql = FetchAllGraphql(query);
         // documents = FetchAll();
-        invited = FetchRole("invited");
-        collaborator = FetchRole("collaborator");
+
+        invited_gql = FetchRoleGraphql("invited");
+        // invited = FetchRole("invited");
+
+        collaborator_gql = FetchRoleGraphql("collaborator");
+        // collaborator = FetchRole("collaborator");
     }
 
 
@@ -51,7 +53,7 @@ function DocumentList() {
             </div>
             <div>
                 <h1>Delas med mig</h1>
-                {collaborator.map((doc) => (
+                {collaborator_gql.map((doc) => (
                     <DocumentListSharedItem
                         key={doc.doc_id}
                         doc_id={doc.doc_id}
@@ -61,7 +63,7 @@ function DocumentList() {
                         invited={false}
                     />
                 ))}
-                {invited.map((doc) => (
+                {invited_gql.map((doc) => (
                     <DocumentListSharedItem
                         key={doc.doc_id}
                         doc_id={doc.doc_id}
