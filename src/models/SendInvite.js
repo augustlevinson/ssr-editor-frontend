@@ -4,7 +4,6 @@ async function SendInvite(details) {
   const user = sessionStorage.getItem("user");
   return await fetch(fetchUrl + '/send', {
   method: 'POST',
-  credentials: 'include',
   headers: {
       'Content-Type': 'application/json',
       'Session-Variable': user,

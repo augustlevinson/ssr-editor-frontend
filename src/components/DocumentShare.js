@@ -36,7 +36,7 @@ function DocumentShare() {
         onSubmit={handleSubmit}>
         <div>
           <input
-            class="invite-input"
+            className="invite-input"
             type="email"
             name="email"
             onChange={(e) => setRecipient(e.target.value)}
