@@ -40,9 +40,12 @@ function SignUpForm() {
 
   return (
     <div className="doc-wrapper">
-      <form onSubmit={handleSignup}>
+      <form 
+        className="login-form"
+        onSubmit={handleSignup}>
         <div>
           <input
+            className="login-input"
             type="email"
             name="email"
             onChange={(e) => setEmail(e.target.value)}
@@ -52,6 +55,7 @@ function SignUpForm() {
         </div>
         <div>
           <input
+            className="login-input"
             type="password"
             name="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -61,6 +65,7 @@ function SignUpForm() {
         </div>
         <div>
           <input
+            className="login-input"
             type="password"
             name="passwordConfirm"
             onChange={(e) => setPasswordConfirmation(e.target.value)}
@@ -69,6 +74,7 @@ function SignUpForm() {
           />
         </div>
         <button className="submit-button dark-blue" type="submit">Registrera</button>
+        <a href="/login">Redan medlem? Logga in</a>
       </form>
     </div>
   );

@@ -7,7 +7,7 @@ function Documents() {
             <h1>Dokument</h1>
             < DocumentList />
             <div className="wrapper">
-                <a className="submit-button bright-blue" href={`${baseUrl}/create`}>Skapa nytt</a>
+                <a className="submit-button medium-blue" href={`${baseUrl}/create`}>Skapa nytt</a>
             </div>
         </div>
     );

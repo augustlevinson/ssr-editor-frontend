@@ -27,6 +27,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Roboto Condensed", sans-serif;
 }
 
 html {
@@ -36,7 +37,6 @@ html {
 
 body {
     line-height: 1.4;
-    font-family: "Roboto Condensed", sans-serif;
     font-optical-sizing: auto;
     font-weight: normal;
     font-style: normal;
@@ -55,12 +55,12 @@ p, label {
 }
 
 a {
-    color: #237095;
+    color: var(--dark-blue);
     text-decoration: none;
 }
 
 a:hover {
-    color: #4F8EAD;
+    color: var(--bright-blue);
 }
 
 h1 {
@@ -282,6 +282,15 @@ textarea {
     background-color: var(--medium-blue);
 }
 
+.medium-blue {
+    background-color: var(--medium-blue);
+}
+
+.medium-blue:hover {
+    background-color: var(--bright-blue);
+    color: #fff;
+}
+
 .dark-blue {
     background-color: var(--dark-blue);
 }
@@ -376,6 +385,10 @@ footer {
     font-size: 10px;
 }
 
+.code-editor * {
+    font-family: monospace, 'Courier New', Courier;
+}
+
 .code-output {
     background-color: #eae0f5;
 }
@@ -383,3 +396,4 @@ footer {
     font-family: monospace, 'Courier New', Courier;
     margin-bottom: 0;
 }
+
