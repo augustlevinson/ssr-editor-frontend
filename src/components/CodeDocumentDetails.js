@@ -129,6 +129,7 @@ function CodeDocumentDetails() {
 
         <div>
         <Editor
+        className="code-editor"
           height="400px"
           defaultLanguage="javascript"
           value={documentData.content}

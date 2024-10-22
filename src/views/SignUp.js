@@ -5,7 +5,6 @@ function SignUp() {
         <div className="main">
             <div className="wrapper">
                 < SignUpForm />
-                <a href="/signin">Redan medlem? Logga in</a>
             </div>
         </div>
     );

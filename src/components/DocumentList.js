@@ -30,7 +30,6 @@ function DocumentList() {
         // collaborator = FetchRole("collaborator");
     }
 
-
     return (
         <div>
             <div>
