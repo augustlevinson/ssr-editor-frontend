@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header.js';
@@ -16,9 +17,18 @@ import Login from './views/Login.js'
 import LogoutUser from './components/LogoutUser.js';
 
 function App() {
+  const [user, setUser] = useState(() => 
+    JSON.parse(sessionStorage.getItem("user")
+  ));
+
+  const updateUserStatus = () => {
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
+    setUser(storedUser);
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header user={user}/>
       <>
         <Routes>
             <Route path="/" element={< Documents />} />
@@ -30,12 +40,12 @@ function App() {
             <Route path="/delete/:id" element={< DeleteDocument />} />
             <Route path="/reset" element={< ResetDb />} />
             <Route path="/signup" element={< SignUp />} />
-            <Route path="/login" element={< Login />} />
+            <Route path="/login" element={< Login updateUserStatus={updateUserStatus}/>} />
             <Route path="/register" element={< RegisterUser />} />
-            <Route path="/logout" element={< LogoutUser />} />
+            <Route path="/logout" element={< LogoutUser updateUserStatus={updateUserStatus}/>} />
         </Routes>
       </>
-      <Footer />
+      <Footer user={user} />
     </div>
   );
 }

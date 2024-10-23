@@ -312,6 +312,10 @@ footer {
     a, p {
     color: #212121;
     }
+
+    & a {
+        margin-left: 1em;
+    }
 }
 
 .disabled {

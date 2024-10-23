@@ -1,8 +1,10 @@
 import { Navigate } from "react-router-dom";
 
-function LogoutUser() {
+function LogoutUser({ updateUserStatus }) {
   sessionStorage.removeItem("user");
-
+  
+  updateUserStatus();
+  
   return <Navigate to="/" replace />;
 }
 

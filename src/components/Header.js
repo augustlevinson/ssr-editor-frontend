@@ -1,13 +1,10 @@
 import { baseUrl } from "../environment.js";
 
-function Header() {
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  
-
+function Header(props) {
   return (
       <header className="App-header">
           <a href={`${baseUrl}/`}><h1>SSR Editor</h1></a>
-          {user ? <p>Inloggad: {user.email}</p> : <p>Ej inloggad</p>}
+          {props.user ? <p>Inloggad: {props.user.email}</p> : <p>Ej inloggad</p>}
       </header>
   );
 }
