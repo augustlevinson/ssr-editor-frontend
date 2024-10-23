@@ -10,7 +10,6 @@ import SingleCodeDocument from './views/SingleCodeDocument.js';
 import Footer from './components/Footer.js';
 import ResetDb from './components/ResetDb.js';
 import AcceptInvitation from './components/AcceptInvitation.js';
-import DeleteDocument from './components/DeleteDocument.js';
 import RegisterUser from './models/RegisterUser.js';
 import SignUp from './views/SignUp.js'
 import Login from './views/Login.js'
@@ -37,7 +36,6 @@ function App() {
             <Route path="/docs/text/:id" element={< SingleTextDocument />} />
             <Route path="/docs/code/:id" element={< SingleCodeDocument />} />
             <Route path="/accept/:id" element={< AcceptInvitation />} />
-            <Route path="/delete/:id" element={< DeleteDocument />} />
             <Route path="/reset" element={< ResetDb />} />
             <Route path="/signup" element={< SignUp />} />
             <Route path="/login" element={< Login updateUserStatus={updateUserStatus}/>} />

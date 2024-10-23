@@ -21,7 +21,7 @@ function DocumentShare() {
       url: mailUrl
     }
 
-    if (!credentials.recipient === credentials.sender) {
+    if (credentials.recipient !== credentials.sender) {
       return await SendInvite(credentials)
     } else {
       alert("Du har redan tillgång till dokumentet.")
