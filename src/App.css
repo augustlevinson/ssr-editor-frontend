@@ -214,6 +214,7 @@ header {
 }
 
 .document-bar {
+    display: flex;
     width: 100%;
     padding: 0.5em;
     background-color: var(--medium-gray);
@@ -274,6 +275,10 @@ textarea {
     border: none;
 }
 
+.delete-button {
+    margin-left: 1em;
+}
+
 .bright-blue {
     background-color: var(--bright-blue);
 }
@@ -298,8 +303,24 @@ textarea {
 .dark-blue:hover {
     background-color: var(--medium-blue);
 }
+
 .red {
     background-color: var(--bright-red);
+    color: #fff;
+}
+
+.red:hover {
+    background-color: var(--quaternary-color);
+    color: #fff;
+}
+
+.gray {
+    background-color: var(--dark-gray);
+    color: #fff;
+}
+
+.gray:hover {
+    background-color: var(--medium-gray);
     color: #fff;
 }
 
@@ -401,3 +422,33 @@ footer {
     margin-bottom: 0;
 }
 
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirmation-content {
+    background: white;
+    padding: 2em;
+    border-radius: 0.5rem;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+ .confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+
+    & button {
+        width: 100px;
+    }  
+    
+ }

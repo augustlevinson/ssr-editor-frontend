@@ -9,11 +9,6 @@ function SingleCodeDocument() {
         <div>
             <DocumentBar id={slug} />
             <CodeDocumentDetails id={slug} />
-            <div className="wrapper">
-                <a className="submit-button red" href={"/delete/" + slug.id}>
-                    Radera dokument
-                </a>
-            </div>
         </div>
     );
 }
