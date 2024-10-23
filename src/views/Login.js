@@ -1,10 +1,10 @@
 import LoginForm from "../components/LoginForm";
 
-function Login() {
+function Login({ updateUserStatus }) {
     return (
         <div className="main">
             <div className="wrapper">
-                < LoginForm />
+                < LoginForm updateUserStatus={updateUserStatus} />
             </div>
         </div>
     );

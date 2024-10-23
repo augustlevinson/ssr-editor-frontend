@@ -3,7 +3,7 @@ import LoginUser from "../models/LoginUser";
 import { useNavigate } from "react-router-dom";
 
 
-function LoginForm() {
+function LoginForm({ updateUserStatus }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,13 +31,11 @@ function LoginForm() {
 
       sessionStorage.setItem("user", JSON.stringify(storeUser))
 
+      updateUserStatus();
+
       navigate('/');
     } else {
-      if (response.reason === "no user") {
-        return alert("Användaren finns inte.")
-      } else if (response.reason === "wrong password") {
-        return alert("Felaktigt lösenord.")
-      }
+      alert(response.reason === "no user" ? "Användaren finns inte." : "Felaktigt lösenord.");
       navigate('/login')
     }
   };
