@@ -28,6 +28,7 @@ function DocumentShare() {
 
     if (credentials.recipient !== credentials.sender) {
       if (document.invited.includes(credentials.recipient)) {
+        setInviteBox(false);
         setAlertMessage(`${credentials.recipient + " är redan inbjuden."}`);
         openAlert();
       } else {
