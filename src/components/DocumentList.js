@@ -21,13 +21,8 @@ function DocumentList() {
             }`
 
         documents_gql = FetchAllGraphql(query);
-        // documents = FetchAll();
-
         invited_gql = FetchRoleGraphql("invited");
-        // invited = FetchRole("invited");
-
         collaborator_gql = FetchRoleGraphql("collaborator");
-        // collaborator = FetchRole("collaborator");
     }
 
     return (
@@ -41,14 +36,6 @@ function DocumentList() {
                         type={doc.type}
                         updated={doc.updated} />
                 ))}
-                {/* {documents.map((doc) => (
-                    <DocumentListItem
-                        key={doc.doc_id}
-                        doc_id={doc.doc_id}
-                        title={doc.title}
-                        type={doc.type}
-                        updated={doc.updated} />
-                ))} */}
             </div>
             <div>
                 <h1>Delas med mig</h1>
