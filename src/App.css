@@ -479,6 +479,10 @@ footer {
     z-index: 1000;
 }
 
+.execute-btn {
+    margin-top: 0.5em;
+}
+
 .confirmation-content {
     width: 300px;
     background: white;

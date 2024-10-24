@@ -137,8 +137,8 @@ function CodeDocumentDetails() {
           theme="vs-dark"
         />
         </div>
-        <button onClick={execute}>
-          Kör
+        <button className="small-button execute-btn dark-blue" onClick={execute}>
+          Exekvera
         </button>
       </form>
     </div>
