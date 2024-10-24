@@ -135,6 +135,10 @@ function CodeDocumentDetails() {
           value={documentData.content}
           onChange={handleContentChange}
           theme="vs-dark"
+          options={{
+            suggestOnTriggerCharacters: false,
+            quickSuggestions: false,
+        }}
         />
         </div>
         <button className="small-button execute-btn dark-blue" onClick={execute}>
