@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { fetchUrl } from "../environment";
 import { io } from "socket.io-client";
 import ContentEditable from "react-contenteditable";
-import CommentButton from "./CommentButton";
 import SingleComment from "./SingleComment";
 
 function TextDocumentDetails() {
@@ -14,6 +13,7 @@ function TextDocumentDetails() {
     content: "",
     comments: []
   });
+  const [hoveredComment, setHoveredComment] = useState(null);
   
   const socket = useRef(null);
 
@@ -110,6 +110,14 @@ function TextDocumentDetails() {
     }
   };
 
+  const handleHoveringEnter = (commentId) => {
+    setHoveredComment(parseInt(commentId));
+  };
+
+  const handleHoveringExit = () => {
+    setHoveredComment(null);
+  };
+
   return (
     <div className="layout-grid">
       <div className="main">
@@ -127,12 +135,19 @@ function TextDocumentDetails() {
             </div>
 
             <div>
-              <CommentButton cmd="insertHTML" name="Kommentar" doc_id={slug.id}/>
               <ContentEditable
                 className="editor-textarea"
                 tagName="pre"
                 html={documentData.content}
                 onChange={handleContentChange}
+                onMouseOver={(e) => {
+                  const span = e.target.closest('span.comment-highlight');
+                  if (span) {
+                    const commentId = span.getAttribute('id').split('-')[1];
+                    handleHoveringEnter(commentId);
+                  }
+                }}
+                onMouseOut={() => handleHoveringExit()}
               />
             </div>
           </form>
@@ -147,7 +162,8 @@ function TextDocumentDetails() {
             comment_id={comment.id} 
             content={comment.content} 
             user={comment.user} 
-            created={comment.created} 
+            created={comment.created}
+            isHighlighted={hoveredComment === comment.id} 
           />
       ))}
       </div>

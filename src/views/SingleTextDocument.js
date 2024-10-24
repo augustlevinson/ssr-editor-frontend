@@ -7,7 +7,7 @@ function SingleTextDocument() {
 
     return (
         <div>
-            <DocumentBar id={slug} />
+            <DocumentBar />
             <TextDocumentDetails id={slug} />
         </div>
     );
