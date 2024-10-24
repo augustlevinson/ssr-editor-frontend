@@ -3,14 +3,16 @@ import FetchDocumentDetailsGraphql from "../models/FetchDocumentDetailsGraphql";
 import SendInvite from "../models/SendInvite";
 import { mailUrl } from "../environment";
 import AlertInvitation from "./AlertInvitation";
+import AlertMessage from "./AlertMessage";
 
 
 function DocumentShare() {
   const [recipient, setRecipient] = useState("");
-
-  const document = FetchDocumentDetailsGraphql();
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertBox, setAlertBox] = useState(false);
   const [confirmBox, setConfirmBox] = useState(false);
 
+  const document = FetchDocumentDetailsGraphql();
   const user = JSON.parse(sessionStorage.getItem("user"));
   
   const handleSubmit = async (e) => {
@@ -27,12 +29,17 @@ function DocumentShare() {
       openConfirmation();
       await SendInvite(credentials)
     } else {
-      alert("Du har redan tillgång till dokumentet.")
+      setAlertMessage("Du har redan tillgång till dokumentet.")
+      openAlert();
     }
   };
 
   const openConfirmation = () => {
     setConfirmBox(true);
+  };
+
+  const openAlert = () => {
+    setAlertBox(true);
   };
 
   return (
@@ -57,6 +64,13 @@ function DocumentShare() {
         boxOpen={confirmBox}
         onClose={() => setConfirmBox(false)}
         recipient={recipient}
+      />
+
+        <AlertMessage
+        boxOpen={alertBox}
+        onClose={() => setAlertBox(false)}
+        header={"Inbjudan misslyckades"}
+        message={alertMessage}
       />
     </div>
   );
