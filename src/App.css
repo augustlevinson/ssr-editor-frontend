@@ -266,6 +266,10 @@ textarea {
     border: none;
 }
 
+a.small-button { 
+    color: #fff;
+}
+
 .small-button {
     padding: 0.5em;
     border-radius: 0.3rem;
@@ -342,10 +346,6 @@ footer {
 .disabled {
     pointer-events: none;
     opacity: 0.6;
-}
-
-.accept-button {
-    width: 75px;
 }
 
 .create-doc {
