@@ -11,12 +11,12 @@ function SingleComment(props) {
   }
 
   return (
-    <div className="single-comment-wrapper">
+    <div className={`single-comment-wrapper ${props.isHighlighted ? 'hovered-comment' : ''}`}>
       <div className="comment-first-row">
         <div className="docRowTitle">
           <p key={props.comment_id}>{props.content}</p>
         </div>
-        <button onClick={deleteComment}className="comment-delete-btn">X</button>
+        <button onClick={deleteComment}className="comment-delete-btn dark-blue">X</button>
       </div>
         <p className="created">{props.user} - {props.created.slice(0, -3)}</p>
     </div>

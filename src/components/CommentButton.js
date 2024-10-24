@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import AddComment from "../models/AddComment";
 import DeleteComment from "../models/DeleteComment";
+import AlertMessage from "./AlertMessage";
 
 function CommentButton(props) {
   const [openComment, setOpenComment] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [id, setId] = useState(null); // Vi använder state så att ID:t inte dubbelgenereras
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertBox, setAlertBox] = useState(false);
  
   const handleCommentChange = (e) => {
     const comment = e.target.value;
@@ -15,14 +18,6 @@ function CommentButton(props) {
   let commentDetails;
 
   const handleSubmit = async () => {
-    if (commentText === "") {
-      commentDetails = {
-        doc_id: props.doc_id,
-        comment_id: id,
-      };
-      setOpenComment(!openComment);
-      await DeleteComment(commentDetails)
-    } else {
       commentDetails = {
         doc_id: props.doc_id,
         comment_id: id,
@@ -33,8 +28,28 @@ function CommentButton(props) {
       setCommentText("");
   
       await AddComment(commentDetails);
-    }
 
+  };
+  
+  const handleSubmitError = async () => {
+    setAlertMessage(`Du måste ange en kommentar!
+      Alternativt 'Avbryt' för att avbryta.`)
+    openAlert();
+  };
+
+  const openAlert = () => {
+    setAlertBox(true);
+  };
+  
+  const handleCancel = async () => {
+    setOpenComment(!openComment);
+    setCommentText("");
+
+    commentDetails = {
+      doc_id: props.doc_id,
+      comment_id: id,
+    };
+    await DeleteComment(commentDetails)
   };
 
   const handleButtonClick = (e) => {
@@ -51,28 +66,45 @@ function CommentButton(props) {
   };
 
   return (
-    <div>
-      <button
-        className="comment-button"
-        key={props.cmd}
-        type="button"
-        onMouseDown={handleButtonClick}
-      >
-        {props.name}
-      </button>
+    <div className="add-comment">
+      {!openComment && (
+        <button
+          className="comment-button small-button dark-blue"
+          key={props.cmd}
+          type="button"
+          onMouseDown={handleButtonClick}
+        >
+          {props.name}
+        </button>
+      )}
       {openComment && (
-        <div>
+        <div className="comment-input">
           <input
             type="text"
             name="comment"
             value={commentText}
             onChange={handleCommentChange}
           />
-          <button onClick={handleSubmit} type="button">
+          <button 
+            className="comment-button small-button dark-blue"
+            onClick={commentText.trim() === "" ? handleSubmitError : handleSubmit}
+            type="button">
             Kommentera
+          </button>
+          <button 
+            className="comment-button small-button gray"
+            onClick={handleCancel} type="button">
+            Avbryt
           </button>
         </div>
       )}
+
+      <AlertMessage
+        boxOpen={alertBox}
+        onClose={() => setAlertBox(false)}
+        header={"Felaktig kommentar"}
+        message={alertMessage}
+      />
     </div>
   );
 }

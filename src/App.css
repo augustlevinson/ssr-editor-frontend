@@ -221,10 +221,16 @@ header {
     justify-content: space-between;
 }
 
+.document-actions {
+    display: flex;
+    align-items: center;
+}
+
 .document-buttons {
     display: flex;
     align-items: center;
 }
+
 .invite-form {
     display: flex;
     gap: 1em;
@@ -383,6 +389,21 @@ footer {
     gap: 8em;
 }
 
+.comment-button {
+    margin-left: 0.5em;
+    width: 77px;
+}
+
+.add-comment {
+    display: flex;
+}
+
+.comment-input input{
+    padding: 0.5em;
+    margin-left: 0.5em;
+    height: 28px;
+    width: 250px;
+}
 .comment-highlight {
     background-color: var(--light-blue);
     opacity: 0.8;
@@ -405,6 +426,11 @@ footer {
     background-color: #fff;
 }
 
+.hovered-comment {
+    background-color: var(--light-blue);
+    transition: background-color 0.25s ease;
+}
+
 .comment-first-row {
     display: flex;
     justify-content: space-between;
@@ -415,9 +441,13 @@ footer {
 }
 
 .comment-delete-btn {
-    max-height: 14px;
-    max-width: 14px;
-    font-size: 10px;
+    width: 2em;
+    border-radius: 0.3rem;
+    font-size: 0.8em;
+    color: #fff;
+    border: none;
+    margin: -0.2em -0.25em 0.5em 0;
+    transform: scale(.75);
 }
 
 .code-editor * {
