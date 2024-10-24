@@ -4,13 +4,14 @@ import SendInvite from "../models/SendInvite";
 import { mailUrl } from "../environment";
 import AlertInvitation from "./AlertInvitation";
 import AlertMessage from "./AlertMessage";
-
+import SendInvitation from "./SendInvitation";
 
 function DocumentShare() {
   const [recipient, setRecipient] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [alertBox, setAlertBox] = useState(false);
   const [confirmBox, setConfirmBox] = useState(false);
+  const [inviteBox, setInviteBox] = useState(false);
 
   const document = FetchDocumentDetailsGraphql();
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -27,8 +28,10 @@ function DocumentShare() {
 
     if (credentials.recipient !== credentials.sender) {
       openConfirmation();
+      setInviteBox(false);
       await SendInvite(credentials)
     } else {
+      setInviteBox(false);
       setAlertMessage("Du har redan tillgång till dokumentet.")
       openAlert();
     }
@@ -42,35 +45,34 @@ function DocumentShare() {
     setAlertBox(true);
   };
 
+  const openSendInvite = () => {
+    setInviteBox(true);
+  };
+
   return (
     <div>
-      <form
-        className="invite-form"
-        onSubmit={handleSubmit}>
-        <div>
-          <input
-            className="invite-input"
-            type="email"
-            name="email"
-            onChange={(e) => setRecipient(e.target.value)}
-            placeholder="E-post..."
-            required
-          />
-        </div>
-        <button className="small-button dark-blue" type="submit">Skicka inbjudan</button>
-      </form>
-
+        <button className="small-button dark-blue"
+        onClick={openSendInvite}>Dela dokument</button>
+      
       <AlertInvitation
         boxOpen={confirmBox}
         onClose={() => setConfirmBox(false)}
         recipient={recipient}
       />
 
-        <AlertMessage
+      <AlertMessage
         boxOpen={alertBox}
         onClose={() => setAlertBox(false)}
         header={"Inbjudan misslyckades"}
         message={alertMessage}
+      />
+
+      <SendInvitation
+        boxOpen={inviteBox}
+        onInput={(value) => setRecipient(value)}
+        onClose={() => setInviteBox(false)}
+        onConfirm={handleSubmit}
+        title={document.title}
       />
     </div>
   );
