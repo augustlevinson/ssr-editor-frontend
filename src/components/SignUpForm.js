@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import RegisterUser from "../models/RegisterUser";
 import { useNavigate } from "react-router-dom";
-
+import AlertMessage from "./AlertMessage";
 
 function SignUpForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertBox, setAlertBox] = useState(false);
 
   const navigate = useNavigate();
 
@@ -24,19 +26,19 @@ function SignUpForm() {
       if (response.success) {
         navigate('/');
       } else {
-        navigate('/signup')
-        
-        // fixa detta snyggare senare
-        // om vi tror att användaren vill logga in vore redirect till login rimlig,
-        // men kan även vara att en ny användare försöker registrera med en upptagen epost.
-        // ska vi bara ha ett meddelande likt nedan (men snyggare?)
-        alert("Användaren finns redan")
+        setAlertMessage("Användaren finns redan.")
+        openAlert();
       }
     } else {
-      // fixa detta snyggare senare
-      alert("Lösenorden stämmer inte överens.")
+      setAlertMessage("Lösenorden stämmer inte överens.")
+      openAlert();
     }
   };
+
+  const openAlert = () => {
+    setAlertBox(true);
+  };
+
 
   return (
     <div className="doc-wrapper">
@@ -76,6 +78,13 @@ function SignUpForm() {
         <button className="submit-button dark-blue" type="submit">Registrera</button>
         <a href="/login">Redan medlem? Logga in</a>
       </form>
+
+      <AlertMessage
+        boxOpen={alertBox}
+        onClose={() => setAlertBox(false)}
+        header={"Registrering misslyckades"}
+        message={alertMessage}
+      />
     </div>
   );
 };

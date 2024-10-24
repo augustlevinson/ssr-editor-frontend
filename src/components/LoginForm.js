@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import LoginUser from "../models/LoginUser";
 import { useNavigate } from "react-router-dom";
-
+import AlertMessage from "./AlertMessage";
 
 function LoginForm({ updateUserStatus }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertBox, setAlertBox] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,9 +21,6 @@ function LoginForm({ updateUserStatus }) {
 
     const response = await LoginUser(user)
 
-    // fixa alertsen snyggare senare
-    // 1. användaren finns inte
-    // 2. lösenordet matchar inte användaren
     if (response.success) {
 
       const storeUser = {
@@ -35,10 +34,19 @@ function LoginForm({ updateUserStatus }) {
 
       navigate('/');
     } else {
-      alert(response.reason === "no user" ? "Användaren finns inte." : "Felaktigt lösenord.");
-      navigate('/login')
+      // två separata här eller en mindre specifik?
+      response.reason === "no user" ? 
+      setAlertMessage("Användaren finns inte.") : 
+      setAlertMessage("Felaktigt lösenord.");
+
+      openAlert();
     }
   };
+
+  const openAlert = () => {
+    setAlertBox(true);
+  };
+
 
   return (
     <div className="doc-wrapper">
@@ -67,6 +75,13 @@ function LoginForm({ updateUserStatus }) {
         </div>
         <button className="submit-button dark-blue" type="submit">Logga in</button>
       </form>
+
+      <AlertMessage
+        boxOpen={alertBox}
+        onClose={() => setAlertBox(false)}
+        header={"Inloggning misslyckades"}
+        message={alertMessage}
+      />
     </div>
   );
 };
