@@ -27,13 +27,18 @@ function DocumentShare() {
     }
 
     if (credentials.recipient !== credentials.sender) {
-      openConfirmation();
-      setInviteBox(false);
-      await SendInvite(credentials)
+      if (document.invited.includes(credentials.recipient)) {
+        setAlertMessage(`${credentials.recipient + " är redan inbjuden."}`);
+        openAlert();
+      } else {
+        openConfirmation();
+        setInviteBox(false);
+        await SendInvite(credentials);
+      }
     } else {
-      setInviteBox(false);
-      setAlertMessage("Du har redan tillgång till dokumentet.")
-      openAlert();
+        setInviteBox(false);
+        setAlertMessage("Du har redan tillgång till dokumentet.");
+        openAlert();
     }
   };
 
