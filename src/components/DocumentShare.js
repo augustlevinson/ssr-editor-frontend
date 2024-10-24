@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import FetchDocumentDetailsGraphql from "../models/FetchDocumentDetailsGraphql";
 import SendInvite from "../models/SendInvite";
 import { mailUrl } from "../environment";
+import AlertInvitation from "./AlertInvitation";
 
 
 function DocumentShare() {
   const [recipient, setRecipient] = useState("");
 
   const document = FetchDocumentDetailsGraphql();
+  const [confirmBox, setConfirmBox] = useState(false);
 
   const user = JSON.parse(sessionStorage.getItem("user"));
   
@@ -22,11 +24,15 @@ function DocumentShare() {
     }
 
     if (credentials.recipient !== credentials.sender) {
-      return await SendInvite(credentials)
+      openConfirmation();
+      await SendInvite(credentials)
     } else {
       alert("Du har redan tillgång till dokumentet.")
     }
+  };
 
+  const openConfirmation = () => {
+    setConfirmBox(true);
   };
 
   return (
@@ -46,6 +52,12 @@ function DocumentShare() {
         </div>
         <button className="small-button dark-blue" type="submit">Skicka inbjudan</button>
       </form>
+
+      <AlertInvitation
+        boxOpen={confirmBox}
+        onClose={() => setConfirmBox(false)}
+        recipient={recipient}
+      />
     </div>
   );
 };
