@@ -32,8 +32,6 @@ function DocumentShare() {
       } else {
         openConfirmation();
         await SendInvite(credentials);
-        setAlertMessage("Inbjudan skickades.");
-        openAlert();
       }
     } else {
         setAlertMessage("Du har redan tillgång till dokumentet.");
