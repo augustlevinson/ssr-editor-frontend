@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { fetchUrl } from "../environment";
 import { io } from "socket.io-client";
 import ContentEditable from "react-contenteditable";
-import FormatButton from "./FormatButton";
 import CommentButton from "./CommentButton";
 import SingleComment from "./SingleComment";
 
@@ -128,11 +127,6 @@ function TextDocumentDetails() {
             </div>
 
             <div>
-              <div className="format-buttons">
-                <FormatButton cmd="bold" name="B"/>
-                <FormatButton cmd="italic" name="I"/>
-                <FormatButton cmd="underline" name="U"/>
-              </div>
               <CommentButton cmd="insertHTML" name="Kommentar" doc_id={slug.id}/>
               <ContentEditable
                 className="editor-textarea"

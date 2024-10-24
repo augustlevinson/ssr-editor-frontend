@@ -1,12 +1,20 @@
 import DocumentShare from "../components/DocumentShare.js";
 import DeleteDocument from "../components/DeleteDocument.js";
+import FormatButton from "./FormatButton.js";
 
-function DocumentBar(props) {
+function DocumentBar({ docId }) {
 
   return (
       <div className="document-bar">
-        < DocumentShare id={props.id}/> {/*  Behövs id här? */}
-        < DeleteDocument />
+        <div className="format-buttons">
+          <FormatButton cmd="bold" name="B" />
+          <FormatButton cmd="italic" name="I" />
+          <FormatButton cmd="underline" name="U" />
+        </div>
+        <div className="document-buttons">
+          < DocumentShare />
+          < DeleteDocument />
+        </div>
       </div>
   );
 }
