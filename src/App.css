@@ -519,3 +519,55 @@ footer {
         transform: rotate(360deg);
     }
 }
+
+.block-view {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.docBlock {
+    display: block;
+    margin-right: 2.5em;
+    margin-bottom: 2em;
+
+    & h2 {
+        margin-bottom: 0.25em;
+    }
+
+    & h2 a {
+        color: var(--medium-blue);
+    }
+
+    & a.small-button {
+        display: block;
+        width: 181px;
+    }
+
+    & p {
+        margin-bottom: 0.25em;
+    }
+
+}
+
+.docBlockIcon {
+    display: block;
+    width: 100px;
+    margin: 0 auto;
+    padding-bottom: 0.25em;
+}
+
+.doc-list-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+button.doc-view-button {
+    margin-left: 0.5em;
+    width: 100px;
+    padding: 1em;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+    border: none;
+}

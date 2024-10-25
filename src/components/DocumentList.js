@@ -1,10 +1,12 @@
 import { Navigate } from "react-router-dom";
 import FetchAllGraphql from "../models/FetchAllGraphql";
 import DocumentListItem from "./DocumentListItem";
+import DocumentIconItem from "./DocumentIconItem";
 import DocumentListSharedItem from "./DocumentListSharedItem";
+import DocumentIconSharedItem from "./DocumentIconSharedItem";
 import FetchRoleGraphql from "../models/FetchRoleGraphql";
 
-function DocumentList() {
+function DocumentList({ docView, sortDocs }) {
     let documents_gql;
     let invited_gql;
     let collaborator_gql;
@@ -25,39 +27,91 @@ function DocumentList() {
         collaborator_gql = FetchRoleGraphql("collaborator");
     }
 
+    const sortedDocuments = sortDocs
+        ? [...documents_gql].sort((a, b) => a.title.localeCompare(b.title))
+        : documents_gql;
+    
+    const sortedCollaborators = sortDocs
+        ? [...collaborator_gql].sort((a, b) => a.title.localeCompare(b.title))
+        : collaborator_gql;
+
+    const sortedInvited = sortDocs
+        ? [...invited_gql].sort((a, b) => a.title.localeCompare(b.title))
+        : invited_gql;
+    
+
     return (
         <div>
-            <div>
-                {documents_gql.map((doc) => (
-                    <DocumentListItem
-                        key={doc.doc_id}
-                        doc_id={doc.doc_id}
-                        title={doc.title}
-                        type={doc.type}
-                        updated={doc.updated} />
+            <div className={docView === "list" ? "list-view" : "block-view"}>
+                {sortedDocuments.map((doc) => (
+                    docView === "list" ? (
+                        <DocumentListItem
+                            key={doc.doc_id}
+                            doc_id={doc.doc_id}
+                            title={doc.title}
+                            type={doc.type}
+                            updated={doc.updated}
+                        />
+                    ) : (
+                        <div key={doc.doc_id}>
+                            <DocumentIconItem
+                                key={doc.doc_id}
+                                doc_id={doc.doc_id}
+                                title={doc.title}
+                                type={doc.type}
+                                updated={doc.updated}
+                            />
+                        </div>
+                    )
                 ))}
             </div>
-            <div>
-                <h1>Delas med mig</h1>
-                {collaborator_gql.map((doc) => (
-                    <DocumentListSharedItem
-                        key={doc.doc_id}
-                        doc_id={doc.doc_id}
-                        title={doc.title}
-                        type={doc.type}
-                        updated={doc.updated}
-                        invited={false}
-                    />
+            <h1>Delas med mig</h1>
+             <div className={docView === "list" ? "list-view" : "block-view"}>
+                {sortedCollaborators.map((doc) => (
+                    docView === "list" ? (
+                        <DocumentListSharedItem
+                            key={doc.doc_id}
+                            doc_id={doc.doc_id}
+                            title={doc.title}
+                            type={doc.type}
+                            updated={doc.updated}
+                            invited={false}
+                        />
+                    ) : (
+                        <div key={doc.doc_id}>
+                            <DocumentIconSharedItem
+                                key={doc.doc_id}
+                                doc_id={doc.doc_id}
+                                title={doc.title}
+                                type={doc.type}
+                                updated={doc.updated}
+                                invited={false}
+                            />
+                        </div>
+                    )
                 ))}
-                {invited_gql.map((doc) => (
-                    <DocumentListSharedItem
-                        key={doc.doc_id}
-                        doc_id={doc.doc_id}
-                        title={doc.title}
-                        type={doc.type}
-                        updated={doc.updated}
-                        invited={true}
-                    />
+                {sortedInvited.map((doc) => (
+                    docView === "list" ? (
+                        <DocumentListSharedItem
+                            key={doc.doc_id}
+                            doc_id={doc.doc_id}
+                            title={doc.title}
+                            type={doc.type}
+                            updated={doc.updated}
+                            invited={true}
+                        />
+                    ) : (
+                        <div key={doc.doc_id}>
+                            <DocumentIconSharedItem
+                                key={doc.doc_id}
+                                doc_id={doc.doc_id}
+                                title={doc.title}
+                                type={doc.type}
+                                updated={doc.updated}
+                                invited={true}
+                            />
+                        </div>
+                    )
                 ))}
             </div>
         </div>
