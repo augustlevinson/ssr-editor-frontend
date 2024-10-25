@@ -491,7 +491,8 @@ footer {
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
- .confirmation-buttons {
+
+.confirmation-buttons {
     display: flex;
     justify-content: center;
     gap: 0.5em;
@@ -499,5 +500,22 @@ footer {
     & button {
         width: 100px;
     }  
-    
- }
+}
+
+.loader {
+    position: relative;
+    top: 40%;
+    margin: 0 auto;
+    border: 4px solid #d3d3d3;
+    border-left-color: var(--medium-blue);
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
