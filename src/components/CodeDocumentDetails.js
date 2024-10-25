@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { fetchUrl } from "../environment";
 import { io } from "socket.io-client";
-import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 import ExecuteCode from "../models/ExecuteCode";
 
 function CodeDocumentDetails() {
@@ -14,6 +14,7 @@ function CodeDocumentDetails() {
   });
 
   const [codeOutput, setCodeOutput] = useState("")
+  const [executingCode, setExecutingCode] = useState(false);
   
   const socket = useRef(null);
 
@@ -107,8 +108,10 @@ function CodeDocumentDetails() {
 
   const execute = async (e) => {
     e.preventDefault();
-    const output = await ExecuteCode(documentData.content)
-    setCodeOutput(output)
+    setExecutingCode(true);
+    const output = await ExecuteCode(documentData.content);
+    setCodeOutput(output);
+    setExecutingCode(false);
   }
 
   return (
@@ -150,9 +153,13 @@ function CodeDocumentDetails() {
       <div className="aside-right">
           <h2>Output</h2>
           <div className="code-output">
-              {codeOutput.split('\n').map((line, index) => (
-                  <p key={index}>{line}</p>
-              ))}
+          {executingCode ? (
+            <div className="loader"></div>
+          ) : (
+            codeOutput.split('\n').map((line, index) => (
+              <p key={index}>{line}</p>
+            ))
+          )}
           </div>
       </div>
     </div>
