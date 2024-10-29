@@ -2,7 +2,7 @@ import { useState } from "react";
 import { baseUrl } from "../environment.js";
 import DocumentList from "../components/DocumentList";
 
-function Documents() {
+function Documents({ updateDocStatus, docsExist }) {
     const [docView, setDocView] = useState(localStorage.getItem("docView") || "list");
     const [sortDocs, setSortDocs] = useState(localStorage.getItem("sorting") === "true");
 
@@ -20,9 +20,9 @@ function Documents() {
         localStorage.setItem("sorting", currentSorting);
     };
 
-    return (
+    return docsExist === true ? (
         <div className="main">
-            <h1 class="doc-list-title">
+            <h1 className="doc-list-title">
                 Dokument
                 <div>
                     <button className="doc-view-button medium-blue" onClick={toggleDocView}>
@@ -33,12 +33,19 @@ function Documents() {
                     </button>
                 </div>
             </h1>
-            <DocumentList docView={docView} sortDocs={sortDocs}/>
+            <DocumentList docView={docView} sortDocs={sortDocs} updateDocStatus={updateDocStatus} />
 
 
             <div className="wrapper">
                 <a className="submit-button medium-blue" href={`${baseUrl}/create`}>Skapa nytt</a>
             </div>
+        </div>
+    ) : (
+        <div className="main">
+            <h1 className="no-docs-title">
+                Du har inga dokument, skapa ett genom att klicka nedan!
+            </h1>
+            <DocumentList docView={docView} sortDocs={sortDocs} updateDocStatus={updateDocStatus} />
         </div>
     );
 }

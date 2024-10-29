@@ -5,8 +5,9 @@ import DocumentIconItem from "./DocumentIconItem";
 import DocumentListSharedItem from "./DocumentListSharedItem";
 import DocumentIconSharedItem from "./DocumentIconSharedItem";
 import FetchRoleGraphql from "../models/FetchRoleGraphql";
+import CreateDocument from "../views/CreateDocument";
 
-function DocumentList({ docView, sortDocs }) {
+function DocumentList({ docView, sortDocs, updateDocStatus}) {
     let documents_gql;
     let invited_gql;
     let collaborator_gql;
@@ -39,8 +40,12 @@ function DocumentList({ docView, sortDocs }) {
         ? [...invited_gql].sort((a, b) => a.title.localeCompare(b.title))
         : invited_gql;
     
+    const allDocs = sortedDocuments.concat(sortedCollaborators, sortedInvited)
+    
+    localStorage.setItem("docsExist", allDocs.length > 0);
+    updateDocStatus();
 
-    return (
+    return allDocs.length !== 0 ? (
         <div>
             <div className={docView === "list" ? "list-view" : "block-view"}>
                 {sortedDocuments.map((doc) => (
@@ -114,6 +119,10 @@ function DocumentList({ docView, sortDocs }) {
                     )
                 ))}
             </div>
+        </div>
+    ) : (
+        <div>
+            < CreateDocument />
         </div>
     );
 }
