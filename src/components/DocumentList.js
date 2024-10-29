@@ -1,16 +1,18 @@
 import { Navigate } from "react-router-dom";
+import { baseUrl } from "../environment.js";
 import FetchAllGraphql from "../models/FetchAllGraphql";
 import DocumentListItem from "./DocumentListItem";
 import DocumentIconItem from "./DocumentIconItem";
 import DocumentListSharedItem from "./DocumentListSharedItem";
 import DocumentIconSharedItem from "./DocumentIconSharedItem";
 import FetchRoleGraphql from "../models/FetchRoleGraphql";
-import CreateDocument from "../views/CreateDocument";
+import CreateDocument from "../views/CreateDocument.js";
 
-function DocumentList({ docView, sortDocs, updateDocStatus}) {
+function DocumentList({ docView, sortDocs, toggleDocView, toggleSort }) {
     let documents_gql;
     let invited_gql;
     let collaborator_gql;
+    let allDocs = [];
     const user = sessionStorage.getItem("user");
     
     if (user === null) {
@@ -40,13 +42,28 @@ function DocumentList({ docView, sortDocs, updateDocStatus}) {
         ? [...invited_gql].sort((a, b) => a.title.localeCompare(b.title))
         : invited_gql;
     
-    const allDocs = sortedDocuments.concat(sortedCollaborators, sortedInvited)
-    
-    localStorage.setItem("docsExist", allDocs.length > 0);
-    updateDocStatus();
+    allDocs = sortedDocuments.concat(sortedCollaborators, sortedInvited);
 
-    return allDocs.length !== 0 ? (
+    return allDocs[0] === undefined ? (
         <div>
+            <h1 className="no-docs-title">
+                Du har inga dokument, skapa ett genom att klicka nedan! 
+            </h1>
+            < CreateDocument />
+        </div>
+    ) : (
+        <div className="main">
+            <h1 className="doc-list-title">
+                Dokument
+                <div>
+                    <button className="doc-view-button medium-blue" onClick={toggleDocView}>
+                        {docView === "list" ? "Visa rutnät" : "Visa lista"}
+                    </button>
+                    <button className="doc-view-button medium-blue" onClick={toggleSort}>
+                        {sortDocs ? "Sortera Ö-A" : "Sortera A-Ö"}
+                    </button>
+                </div>
+            </h1>
             <div className={docView === "list" ? "list-view" : "block-view"}>
                 {sortedDocuments.map((doc) => (
                     docView === "list" ? (
@@ -60,7 +77,6 @@ function DocumentList({ docView, sortDocs, updateDocStatus}) {
                     ) : (
                         <div key={doc.doc_id}>
                             <DocumentIconItem
-                                key={doc.doc_id}
                                 doc_id={doc.doc_id}
                                 title={doc.title}
                                 type={doc.type}
@@ -70,8 +86,9 @@ function DocumentList({ docView, sortDocs, updateDocStatus}) {
                     )
                 ))}
             </div>
+
             <h1>Delas med mig</h1>
-             <div className={docView === "list" ? "list-view" : "block-view"}>
+            <div className={docView === "list" ? "list-view" : "block-view"}>
                 {sortedCollaborators.map((doc) => (
                     docView === "list" ? (
                         <DocumentListSharedItem
@@ -85,7 +102,6 @@ function DocumentList({ docView, sortDocs, updateDocStatus}) {
                     ) : (
                         <div key={doc.doc_id}>
                             <DocumentIconSharedItem
-                                key={doc.doc_id}
                                 doc_id={doc.doc_id}
                                 title={doc.title}
                                 type={doc.type}
@@ -108,7 +124,6 @@ function DocumentList({ docView, sortDocs, updateDocStatus}) {
                     ) : (
                         <div key={doc.doc_id}>
                             <DocumentIconSharedItem
-                                key={doc.doc_id}
                                 doc_id={doc.doc_id}
                                 title={doc.title}
                                 type={doc.type}
@@ -119,10 +134,9 @@ function DocumentList({ docView, sortDocs, updateDocStatus}) {
                     )
                 ))}
             </div>
-        </div>
-    ) : (
-        <div>
-            < CreateDocument />
+            <div className="wrapper">
+                <a className="submit-button medium-blue" href={`${baseUrl}/create`}>Skapa nytt</a>
+            </div>
         </div>
     );
 }

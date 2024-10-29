@@ -20,17 +20,9 @@ function App() {
     JSON.parse(sessionStorage.getItem("user")
   ));
 
-  const [docsExist, setDocsExist] = useState(false);
-
-
   const updateUserStatus = () => {
     const storedUser = JSON.parse(sessionStorage.getItem("user"));
     setUser(storedUser);
-  };
-  
-  const updateDocStatus = () => {
-    const value = JSON.parse(localStorage.getItem("docsExist"));
-    setDocsExist(value);
   };
 
   return (
@@ -38,7 +30,7 @@ function App() {
       <Header user={user}/>
       <>
         <Routes>
-            <Route path="/" element={< Documents updateDocStatus={updateDocStatus} docsExist={docsExist}/>} />
+            <Route path="/" element={< Documents />} />
             <Route path="/create" element={< CreateDocument />} />
             <Route path="/create/:type" element={< NewDocument />} />
             <Route path="/docs/text/:id" element={< SingleTextDocument />} />
