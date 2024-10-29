@@ -571,3 +571,9 @@ button.doc-view-button {
     color: #fff;
     border: none;
 }
+
+.no-docs-title {
+    padding-top: 1em;
+    margin-bottom: -1em;
+    text-align: center;
+}

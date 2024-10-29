@@ -57,8 +57,9 @@ function DocumentShare() {
 
   return (
     <div>
-        <button className="small-button dark-blue"
-        onClick={openSendInvite}>Dela dokument</button>
+      <button className="small-button dark-blue"
+        onClick={openSendInvite}>Dela dokument
+      </button>
       
       <AlertInvitation
         boxOpen={confirmBox}
