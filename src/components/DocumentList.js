@@ -6,13 +6,11 @@ import DocumentIconItem from "./DocumentIconItem";
 import DocumentListSharedItem from "./DocumentListSharedItem";
 import DocumentIconSharedItem from "./DocumentIconSharedItem";
 import FetchRoleGraphql from "../models/FetchRoleGraphql";
-import CreateDocument from "../views/CreateDocument.js";
 
 function DocumentList({ docView, sortDocs, toggleDocView, toggleSort }) {
     let documents_gql;
     let invited_gql;
     let collaborator_gql;
-    let allDocs = [];
     const user = sessionStorage.getItem("user");
     
     if (user === null) {
@@ -31,27 +29,19 @@ function DocumentList({ docView, sortDocs, toggleDocView, toggleSort }) {
     }
 
     const sortedDocuments = sortDocs
-        ? [...documents_gql].sort((a, b) => a.title.localeCompare(b.title))
-        : documents_gql;
+        ? [...documents_gql].sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+        : [...documents_gql].sort((a,b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0));
     
     const sortedCollaborators = sortDocs
-        ? [...collaborator_gql].sort((a, b) => a.title.localeCompare(b.title))
-        : collaborator_gql;
+        ? [...collaborator_gql].sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+        : [...collaborator_gql].sort((a,b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0));
 
     const sortedInvited = sortDocs
-        ? [...invited_gql].sort((a, b) => a.title.localeCompare(b.title))
-        : invited_gql;
+        ? [...invited_gql].sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+        : [...invited_gql].sort((a,b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0));
     
-    allDocs = sortedDocuments.concat(sortedCollaborators, sortedInvited);
 
-    return allDocs[0] === undefined ? (
-        <div>
-            <h1 className="no-docs-title">
-                Du har inga dokument, skapa ett genom att klicka nedan! 
-            </h1>
-            < CreateDocument />
-        </div>
-    ) : (
+    return (
         <div className="main">
             <h1 className="doc-list-title">
                 Dokument
@@ -88,7 +78,7 @@ function DocumentList({ docView, sortDocs, toggleDocView, toggleSort }) {
             </div>
 
             <h1>Delas med mig</h1>
-            <div className={docView === "list" ? "list-view" : "block-view"}>
+            <div className={docView === "list" ? "list-view shared" : "block-view shared"}>
                 {sortedCollaborators.map((doc) => (
                     docView === "list" ? (
                         <DocumentListSharedItem
