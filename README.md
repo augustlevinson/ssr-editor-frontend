@@ -1,4 +1,15 @@
-# Frontend for SSR (Server Side Rendered) Editor
+# SSR Editor
+
+_A real-time collaborative text editor web application. Built as part of the JSRamverk course at Blekinge Institute of Technology_
+
+
+
+Tech stack
+---
+
+This project was built using MongoDB, Express, React and Node.js - also known as MERN.
+
+
 
 ___
 
