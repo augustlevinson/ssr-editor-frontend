@@ -1,72 +1,59 @@
-import { Navigate } from "react-router-dom";
-import { baseUrl } from "../environment.js";
-import FetchAllGraphql from "../models/FetchAllGraphql";
-import DocumentListItem from "./DocumentListItem";
-import DocumentIconItem from "./DocumentIconItem";
-import DocumentListSharedItem from "./DocumentListSharedItem";
-import DocumentIconSharedItem from "./DocumentIconSharedItem";
-import FetchRoleGraphql from "../models/FetchRoleGraphql";
-import CreateDocument from "../views/CreateDocument.js";
+let invited_gql;
+let collaborator_gql;
+let allDocs = [];
+const user = sessionStorage.getItem("user");
 
-function DocumentList({ docView, sortDocs, toggleDocView, toggleSort }) {
-    let documents_gql;
-    let invited_gql;
-    let collaborator_gql;
-    let allDocs = [];
-    const user = sessionStorage.getItem("user");
-    
-    if (user === null) {
-        return <Navigate to="/login" replace />;
-    } else {
-        const email = JSON.parse(user).email
-        const token = JSON.parse(user).token
-        const query = `{ docs
-                (email: "${email}", token: "${token}")
-                { doc_id title type updated}
-            }`
+if (user === null) {
+    return <Navigate to="/login" replace />;
+} else {
+    const email = JSON.parse(user).email;
+    const token = JSON.parse(user).token;
+    const query = `{ docs
+            (email: "${email}", token: "${token}")
+            { doc_id title type updated}
+        }`;
 
-        documents_gql = FetchAllGraphql(query);
-        invited_gql = FetchRoleGraphql("invited");
-        collaborator_gql = FetchRoleGraphql("collaborator");
-    }
+    documents_gql = FetchAllGraphql(query);
+    invited_gql = FetchRoleGraphql("invited");
+    collaborator_gql = FetchRoleGraphql("collaborator");
+}
 
-    const sortedDocuments = sortDocs
-        ? [...documents_gql].sort((a, b) => a.title.localeCompare(b.title))
-        : documents_gql;
-    
-    const sortedCollaborators = sortDocs
-        ? [...collaborator_gql].sort((a, b) => a.title.localeCompare(b.title))
-        : collaborator_gql;
+// Extract titles
+const titles = [
+    ...documents_gql.map(doc => ({ ...doc, source: 'documents' })),
+    ...collaborator_gql.map(doc => ({ ...doc, source: 'collaborators' })),
+    ...invited_gql.map(doc => ({ ...doc, source: 'invited' }))
+];
 
-    const sortedInvited = sortDocs
-        ? [...invited_gql].sort((a, b) => a.title.localeCompare(b.title))
-        : invited_gql;
-    
-    allDocs = sortedDocuments.concat(sortedCollaborators, sortedInvited);
+// Sort titles
+const sortedTitles = sortDocs
+    ? titles.sort((a, b) => a.title.localeCompare(b.title))
+    : titles;
 
-    return allDocs[0] === undefined ? (
-        <div>
-            <h1 className="no-docs-title">
-                Du har inga dokument, skapa ett genom att klicka nedan! 
-            </h1>
-            < CreateDocument />
-        </div>
-    ) : (
-        <div className="main">
-            <h1 className="doc-list-title">
-                Dokument
-                <div>
-                    <button className="doc-view-button medium-blue" onClick={toggleDocView}>
-                        {docView === "list" ? "Visa rutnät" : "Visa lista"}
-                    </button>
-                    <button className="doc-view-button medium-blue" onClick={toggleSort}>
-                        {sortDocs ? "Sortera Ö-A" : "Sortera A-Ö"}
-                    </button>
-                </div>
-            </h1>
-            <div className={docView === "list" ? "list-view" : "block-view"}>
-                {sortedDocuments.map((doc) => (
-                    docView === "list" ? (
+return sortedTitles.length === 0 ? (
+    <div>
+        <h1 className="no-docs-title">
+            Du har inga dokument, skapa ett genom att klicka nedan! 
+        </h1>
+        <CreateDocument />
+    </div>
+) : (
+    <div className="main">
+        <h1 className="doc-list-title">
+            Dokument
+            <div>
+                <button className="doc-view-button medium-blue" onClick={toggleDocView}>
+                    {docView === "list" ? "Visa rutnät" : "Visa lista"}
+                </button>
+                <button className="doc-view-button medium-blue" onClick={toggleSort}>
+                    {sortDocs ? "Sortera Ö-A" : "Sortera A-Ö"}
+                </button>
+            </div>
+        </h1>
+        <div className={docView === "list" ? "list-view" : "block-view"}>
+            {sortedTitles.map((doc) => (
+                docView === "list" ? (
+                    doc.source === 'documents' ? (
                         <DocumentListItem
                             key={doc.doc_id}
                             doc_id={doc.doc_id}
@@ -74,23 +61,7 @@ function DocumentList({ docView, sortDocs, toggleDocView, toggleSort }) {
                             type={doc.type}
                             updated={doc.updated}
                         />
-                    ) : (
-                        <div key={doc.doc_id}>
-                            <DocumentIconItem
-                                doc_id={doc.doc_id}
-                                title={doc.title}
-                                type={doc.type}
-                                updated={doc.updated}
-                            />
-                        </div>
-                    )
-                ))}
-            </div>
-
-            <h1>Delas med mig</h1>
-            <div className={docView === "list" ? "list-view" : "block-view"}>
-                {sortedCollaborators.map((doc) => (
-                    docView === "list" ? (
+                    ) : doc.source === 'collaborators' ? (
                         <DocumentListSharedItem
                             key={doc.doc_id}
                             doc_id={doc.doc_id}
@@ -100,19 +71,6 @@ function DocumentList({ docView, sortDocs, toggleDocView, toggleSort }) {
                             invited={false}
                         />
                     ) : (
-                        <div key={doc.doc_id}>
-                            <DocumentIconSharedItem
-                                doc_id={doc.doc_id}
-                                title={doc.title}
-                                type={doc.type}
-                                updated={doc.updated}
-                                invited={false}
-                            />
-                        </div>
-                    )
-                ))}
-                {sortedInvited.map((doc) => (
-                    docView === "list" ? (
                         <DocumentListSharedItem
                             key={doc.doc_id}
                             doc_id={doc.doc_id}
@@ -121,8 +79,25 @@ function DocumentList({ docView, sortDocs, toggleDocView, toggleSort }) {
                             updated={doc.updated}
                             invited={true}
                         />
-                    ) : (
-                        <div key={doc.doc_id}>
+                    )
+                ) : (
+                    <div key={doc.doc_id}>
+                        {doc.source === 'documents' ? (
+                            <DocumentIconItem
+                                doc_id={doc.doc_id}
+                                title={doc.title}
+                                type={doc.type}
+                                updated={doc.updated}
+                            />
+                        ) : doc.source === 'collaborators' ? (
+                            <DocumentIconSharedItem
+                                doc_id={doc.doc_id}
+                                title={doc.title}
+                                type={doc.type}
+                                updated={doc.updated}
+                                invited={false}
+                            />
+                        ) : (
                             <DocumentIconSharedItem
                                 doc_id={doc.doc_id}
                                 title={doc.title}
@@ -130,15 +105,13 @@ function DocumentList({ docView, sortDocs, toggleDocView, toggleSort }) {
                                 updated={doc.updated}
                                 invited={true}
                             />
-                        </div>
-                    )
-                ))}
-            </div>
-            <div className="wrapper">
-                <a className="submit-button medium-blue" href={`${baseUrl}/create`}>Skapa nytt</a>
-            </div>
+                        )}
+                    </div>
+                )
+            ))}
         </div>
-    );
-}
-
-export default DocumentList;
+        <div className="wrapper">
+            <a className="submit-button medium-blue" href={`${baseUrl}/create`}>Skapa nytt</a>
+        </div>
+    </div>
+);

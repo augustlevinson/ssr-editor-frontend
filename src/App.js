@@ -30,8 +30,8 @@ function App() {
       <Header user={user}/>
       <>
         <Routes>
-            <Route path="/" element={< Documents />} />
-            <Route path="/create" element={< CreateDocument />} />
+            <Route path="/docs" element={< Documents />} />
+            <Route path="/" element={< CreateDocument />} />
             <Route path="/create/:type" element={< NewDocument />} />
             <Route path="/docs/text/:id" element={< SingleTextDocument />} />
             <Route path="/docs/code/:id" element={< SingleCodeDocument />} />

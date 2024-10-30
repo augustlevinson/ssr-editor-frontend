@@ -7,6 +7,7 @@ function CreateDocument() {
                 <a className="create-doc" href={`${baseUrl}/create/text`}><img src="images/text-icon.png" /><h2>Nytt textdokument</h2></a>
                 <a className="create-doc" href={`${baseUrl}/create/code`}><img src="images/code-icon.png" /><h2>Nytt koddokument</h2></a>
             </div>
+            <a href="/docs" className="submit-button medium-blue">Till dokument</a>
         </div>
     );
 }
