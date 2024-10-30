@@ -562,6 +562,14 @@ footer {
     justify-content: space-between;
 }
 
+.list-view, .block-view {
+    min-height: 20px;
+
+}
+
+.shared {
+    min-height: 100px;
+}
 button.doc-view-button {
     margin-left: 0.5em;
     width: 100px;
