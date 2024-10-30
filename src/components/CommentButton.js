@@ -6,7 +6,7 @@ import AlertMessage from "./AlertMessage";
 function CommentButton(props) {
   const [openComment, setOpenComment] = useState(false);
   const [commentText, setCommentText] = useState("");
-  const [id, setId] = useState(null); // Vi använder state så att ID:t inte dubbelgenereras
+  const [id, setId] = useState(null);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertBox, setAlertBox] = useState(false);
  

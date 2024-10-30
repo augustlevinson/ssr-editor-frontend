@@ -5,8 +5,6 @@ function Documents() {
     const [docView, setDocView] = useState(localStorage.getItem("docView") || "list");
     const [sortDocs, setSortDocs] = useState(localStorage.getItem("sorting") === "true");
 
-    // använder localstorage för att vald sortering ska "sparas"
-    // även om man lämnar /, och sedan går tillbaka
     const toggleDocView = () => {
         const currentView = docView === "list" ? "block" : "list";
         setDocView(currentView);

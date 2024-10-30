@@ -32,10 +32,6 @@ function TextDocumentDetails() {
       console.error("Connection error:", err);
     });
 
-    // hämta title och content från db när vi går in i
-    // dokumentet första gången och dokumentet joinas.
-    // på backenden körs denna inuti joinen, 
-    // så den bör bara triggas en gång.
     socket.current.on("enterDoc", (document) => {
       console.log("Initial document:", document);
       setDocumentData({
@@ -82,8 +78,6 @@ function TextDocumentDetails() {
       console.log("Emitting update:", documentData);
       socket.current.emit('update', { 
         doc_id: slug.id,
-        // nedanstående ternary krävs för att förhindra 
-        // att senast inskrivna tecknet försvinner
         title: name === "title" ? value: documentData.title, 
         content: documentData.content,
         comments: documentData.comments

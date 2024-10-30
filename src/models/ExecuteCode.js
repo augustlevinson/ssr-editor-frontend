@@ -14,7 +14,6 @@ async function ExecuteCode(content) {
     .then((response) => response.json())
     .then((result) => decodedOutput = atob(result.data));
     
-    console.log(decodedOutput)
     return decodedOutput;
 }
 
