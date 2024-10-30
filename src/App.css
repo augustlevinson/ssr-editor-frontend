@@ -60,7 +60,7 @@ a {
 }
 
 a:hover {
-    color: var(--bright-blue);
+    color: var(--dark-blue);
 }
 
 h1 {
@@ -88,6 +88,12 @@ header {
         font-size: 1.8rem;
         color: #fff;
         margin-bottom: 0;
+    }
+
+    p {
+        font-size: 0.8rem;
+        color: #fff;
+        font-style: italic;
     }
 }
 
@@ -563,8 +569,7 @@ footer {
 }
 
 .list-view, .block-view {
-    min-height: 20px;
-
+    min-height: 200px;
 }
 
 .shared {
