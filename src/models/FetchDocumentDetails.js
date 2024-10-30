@@ -11,7 +11,7 @@ function FetchDocumentDetails() {
           .then((response) => response.json())
           .then((data) => setDocument(data.doc))
           .catch((error) => console.error("Error fetching document details:", error));
-  }, []);
+  }, [slug.id]);
 
   return document;
 }

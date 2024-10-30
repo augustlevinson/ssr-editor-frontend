@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import FetchDocumentDetailsGraphql from "../models/FetchDocumentDetailsGraphql";
+import FetchDocumentDetails from "../models/FetchDocumentDetails";
 import FetchUser from "../models/FetchUser.js";
 import FetchDelete from "../models/FetchDelete.js"
 import ConfirmationDelete from "./ConfirmDelete.js";
@@ -10,7 +10,7 @@ function DocumentDelete() {
   const user = FetchUser();
   const navigate = useNavigate();
 
-  const document = FetchDocumentDetailsGraphql();
+  const document = FetchDocumentDetails();
   const [confirmBox, setConfirmBox] = useState(false);
 
   const handleDeletion = async (e) => {
@@ -39,7 +39,6 @@ function DocumentDelete() {
         boxOpen={confirmBox}
         onClose={() => setConfirmBox(false)}
         onConfirm={handleDeletion}
-        title={document.title}
       />
     </div>
   );

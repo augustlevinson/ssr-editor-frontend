@@ -31,7 +31,7 @@ function FetchRoleGraphql(role) {
               }
             })
             .catch((error) => console.error("Error fetching documents:", error));
-    }, [query]);
+    }, [query, user, role]);
 
     return documents;
 }

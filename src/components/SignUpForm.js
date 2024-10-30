@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import RegisterUser from "../models/RegisterUser";
 import { useNavigate } from "react-router-dom";
 import AlertMessage from "./AlertMessage";
+import { baseUrl } from "../environment";
 
 function SignUpForm() {
   const [email, setEmail] = useState("");
@@ -76,7 +77,7 @@ function SignUpForm() {
           />
         </div>
         <button className="submit-button dark-blue" type="submit">Registrera</button>
-        <a href="/login">Redan medlem? Logga in</a>
+        <a href={baseUrl + "/login"}>Redan medlem? Logga in</a>
       </form>
 
       <AlertMessage
