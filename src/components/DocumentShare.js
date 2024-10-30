@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FetchDocumentDetailsGraphql from "../models/FetchDocumentDetailsGraphql";
+import FetchDocumentDetails from "../models/FetchDocumentDetails";
 import SendInvite from "../models/SendInvite";
 import { mailUrl } from "../environment";
 import AlertInvitation from "./AlertInvitation";
@@ -13,7 +13,8 @@ function DocumentShare() {
   const [confirmBox, setConfirmBox] = useState(false);
   const [inviteBox, setInviteBox] = useState(false);
 
-  const document = FetchDocumentDetailsGraphql();
+  const document = FetchDocumentDetails();
+
   const user = JSON.parse(sessionStorage.getItem("user"));
   
   const handleSubmit = async (e) => {
@@ -79,7 +80,6 @@ function DocumentShare() {
         onInput={(value) => setRecipient(value)}
         onClose={() => setInviteBox(false)}
         onConfirm={handleSubmit}
-        title={document.title}
       />
     </div>
   );

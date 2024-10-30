@@ -317,7 +317,8 @@ a.small-button {
     background-color: var(--medium-blue);
 }
 
-.medium-blue:hover {
+.medium-blue:hover,
+a.medium-blue:hover {
     background-color: var(--bright-blue);
     color: #fff;
 }

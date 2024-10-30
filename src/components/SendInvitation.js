@@ -1,4 +1,4 @@
-const SendInvitation = ({ boxOpen, onClose, onInput, onConfirm, title}) => {
+const SendInvitation = ({ boxOpen, onClose, onInput, onConfirm }) => {
   if (!boxOpen) {
     return
   }
@@ -6,7 +6,7 @@ const SendInvitation = ({ boxOpen, onClose, onInput, onConfirm, title}) => {
   return (
     <div className="confirmation-overlay">
       <div className="confirmation-content">
-        <h2>Dela "{title}"</h2>
+        <h2>Dela dokumentet</h2>
         <div>
             <input
               className="invite-input"
